@@ -76,3 +76,18 @@
     outline: none; /* Removes default outline to use custom styles */
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Adds a Bootstrap-like focus glow */
 }
+.search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s;
+    width: 200px;
+    color: black; /* Sets the text color to black */
+    background-color: white; /* Optional: ensures the background is white for maximum contrast */
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

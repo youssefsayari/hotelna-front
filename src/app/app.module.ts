@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';  // <-- Add this line
+
 import { AppComponent } from './app.component';
 
 // dashboard components
@@ -19,7 +21,7 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-
+import { UserListComponent } from './pages/user/user-list/user-list.component';
 
 // icons
 import { HomeIconComponent } from './dashboard/icons/home-icon/home-icon.component';
@@ -27,10 +29,7 @@ import { CreditIconComponent } from './dashboard/icons/credit-icon/credit-icon.c
 import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.component';
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
-import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
-import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   declarations: [
@@ -60,9 +59,13 @@ import { HttpClientModule } from '@angular/common/http';
     StatusIconComponent,
     SettingsIconComponent,
     UserIconComponent,
-
   ],
-  imports: [BrowserModule, AppRoutingModule,HttpClientModule  ],
+  imports: [
+    BrowserModule, 
+    AppRoutingModule, 
+    HttpClientModule, 
+    FormsModule  // <-- Add this line
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

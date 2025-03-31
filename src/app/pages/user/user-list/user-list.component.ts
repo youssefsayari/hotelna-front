@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';  // Import SweetAlert2
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
+  filteredUsers: User[] = [];  
+  searchName: string = '';
 
   constructor(private userService: UserService) { }
 
@@ -21,13 +23,23 @@ export class UserListComponent implements OnInit {
 
   loadUsers(): void {
     this.userService.getAllUsers().subscribe({
-      next: (data) => this.users = data,
+      next: (data) => {
+        this.users = data;
+        this.filteredUsers = data; 
+      },
       error: (err) => {
         console.error('Failed to get users', err);
         Swal.fire('Error!', 'Failed to load users.', 'error');
       }
     });
   }
+  filterUsers(): void {
+    this.filteredUsers = this.users.filter(user =>
+      user.firstName.toLowerCase().includes(this.searchName.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(this.searchName.toLowerCase())
+    );
+  }
+  
 
   editUser(user: User): void {
     Swal.fire({
