@@ -6,6 +6,7 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'admin/archives', component: ArchiveComponent },
   { path: 'admin/credits', component: CreditComponent },
   { path: 'admin/settings', component: SettingsComponent },
+  { path:'userlist', component: UserListComponent }
 ];
 
 @NgModule({

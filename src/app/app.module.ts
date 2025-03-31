@@ -27,6 +27,8 @@ import { CreditIconComponent } from './dashboard/icons/credit-icon/credit-icon.c
 import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.component';
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-
     StatusComponent,
     ArchiveComponent,
     SettingsComponent,
+    UserListComponent,
 
     // icons
     HomeIconComponent,
@@ -55,6 +58,7 @@ import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
+    UserIconComponent,
 
   ],
   imports: [BrowserModule, AppRoutingModule],
