@@ -19,8 +19,7 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { DocIconComponent } from './dashboard/icons/doc-icon/doc-icon.component';
-import { DocumentationComponent } from './pages/documentation/documentation.component';
+
 
 // icons
 import { HomeIconComponent } from './dashboard/icons/home-icon/home-icon.component';
@@ -29,12 +28,6 @@ import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.c
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
 
-// others
-import { DocComponent } from './components/docs/doc/doc.component';
-import { ContentComponent } from './components/content/content.component';
-import { SnippetComponent } from './components/docs/snippet/snippet.component';
-import { FolderIconComponent } from './components/docs/icons/folder-icon/folder-icon.component';
-import { AngularIconComponent } from './components/docs/icons/angular-icon/angular-icon.component';
 
 @NgModule({
   declarations: [
@@ -55,22 +48,14 @@ import { AngularIconComponent } from './components/docs/icons/angular-icon/angul
     StatusComponent,
     ArchiveComponent,
     SettingsComponent,
-    DocumentationComponent,
 
     // icons
-    DocIconComponent,
     HomeIconComponent,
     ArchiveIconComponent,
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
 
-    // others
-    DocComponent,
-    SnippetComponent,
-    ContentComponent,
-    FolderIconComponent,
-    AngularIconComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
