@@ -1,12 +1,40 @@
 <div class="flex flex-wrap">
     <div class="w-full rounded-3xl bg-gray-800 p-6 lg:w-12/12">
-        <!--************************7ot lktiba lhne bch matethlekech template***********************-->
-                <!--exemple : -->
-      <div class="mb-8 flex items-center justify-between text-white">
-        <p class="text-2xl font-bold">Home</p>
-        <p class="">December, 12</p>
-      </div>
-      
+        <div class="container">
+            <!-- Flex container to align header and button -->
+            <div class="flex justify-between items-center mb-4">
+                <h2>User List</h2>
+                <button class="btn btn-success" (click)="addUser()">➕ Add Meeting</button>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>User Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.telephone }}</td>
+                        <td>{{ user.typeUser }}</td>
+                        <td>
+                            <button class="btn btn-primary" (click)="editUser(user)">Edit</button>
+                            <button class="btn btn-danger" (click)="deleteUser(user.idUser)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-8 flex items-center justify-between text-white">
+            <p class="text-2xl font-bold">Home</p>
+            <p class="">December, 12</p>
+        </div>
     </div>
-   
-  </div>
+</div>

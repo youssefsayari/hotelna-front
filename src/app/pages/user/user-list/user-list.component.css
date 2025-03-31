@@ -1,0 +1,78 @@
+.container {
+    margin-top: 20px;
+    color: white; /* Keeps text color white within the container for better contrast against the dark background */
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #2a2a2a; /* Lightens the background slightly for contrast */
+    border-collapse: collapse; /* Maintains neat table borders */
+}
+
+.table th, .table td {
+    padding: 12px; /* Increases padding for better spacing and readability */
+    text-align: left; /* Keeps text aligned to the left; can adjust if needed */
+    border-bottom: 1px solid #444; /* Subtle border for each cell */
+}
+
+.table th {
+    background-color: #333; /* Darker background for header cells for distinction */
+}
+
+.table tbody tr:hover {
+    background-color: #3a3a3a; /* Adds hover effect for rows */
+}
+
+.btn {
+    color: #fff; /* Ensures button text is white */
+    background-color: #007bff; /* Primary blue by default, adjust if needed */
+    border: none;
+    padding: 8px 16px; /* Adjusted for better touch interaction */
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.2s; /* Smooth transitions for hover effects */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Standard Bootstrap 'danger' color */
+}
+
+.btn-success {
+    background-color: #28a745; /* Standard Bootstrap 'success' green */
+}
+
+.btn:hover {
+    opacity: 0.85; /* Subtle opacity change on hover for button interaction feedback */
+}
+
+.custom-swal .swal2-popup {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Modern font, ensures consistency */
+}
+
+.custom-swal .swal2-input,
+.custom-swal .swal2-select {
+    display: block;
+    width: 100%; /* Full width for inputs and selects */
+    padding: 8px 10px; /* Padding improved for touch interaction */
+    margin-top: 8px; /* Spacing above each form element */
+    background-color: #fff; /* White background for clear visibility */
+    border: 1px solid #ced4da; /* Subtle border */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.075); /* Subtle inset shadow for depth */
+}
+
+.custom-swal label {
+    display: block; /* Ensures labels are on their own line */
+    margin-top: 10px; /* Spacing above each label */
+    color: #adb5bd; /* Light gray color for text, offering sufficient contrast */
+    font-size: 14px; /* Slightly larger font size for readability */
+}
+
+/* Extra styles for enhanced UI interaction */
+.custom-swal .swal2-select:hover,
+.custom-swal .swal2-select:focus {
+    border-color: #80bdff; /* Highlight border on focus or hover */
+    outline: none; /* Removes default outline to use custom styles */
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Adds a Bootstrap-like focus glow */
+}

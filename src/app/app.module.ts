@@ -29,6 +29,7 @@ import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-ico
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -61,7 +62,7 @@ import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.compone
     UserIconComponent,
 
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule,HttpClientModule  ],
   providers: [],
   bootstrap: [AppComponent],
 })
