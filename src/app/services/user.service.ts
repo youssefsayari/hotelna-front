@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model'; 
 
@@ -44,6 +44,15 @@ export class UserService {
   }
 
   login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/login`, {email, password});
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    let body = new URLSearchParams();
+    body.set('email', email);
+    body.set('password', password);
+
+    return this.http.post<User>(`${this.apiUrl}/login`, body.toString(), { headers });
   }
+
 }
