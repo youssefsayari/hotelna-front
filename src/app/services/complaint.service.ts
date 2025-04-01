@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Complaint} from '../models/complaint.model';
 
 @Injectable({
@@ -26,10 +27,31 @@ export class ComplaintService {
     return this.http.get<Complaint[]>(`${this.baseUrl}/getAllComplaints`);
   }
 
-  // UPDATE
-  updateComplaint(id: number, complaintDetails: Complaint): Observable<Complaint> {
-    return this.http.put<Complaint>(`${this.baseUrl}/updateComplaint/${id}`, complaintDetails);
-  }
+ // UPDATE avec gestion moderne
+updateComplaint(id: number, complaintDetails: Complaint): Observable<Complaint> {
+  return this.http.put<Complaint>(
+    `${this.baseUrl}/updateComplaint/${id}`, 
+    complaintDetails,
+    { 
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }),
+      reportProgress: true,
+      responseType: 'json'
+    }
+  ).pipe(
+    catchError(this.handleError<Complaint>('updateComplaint'))
+  );
+}
+
+private handleError<T>(operation = 'operation') {
+  return (error: HttpErrorResponse): Observable<T> => {
+    console.error(`${operation} failed:`, error);
+    const message = error.error?.message || error.message;
+    return throwError(() => new Error(message));
+  };
+}
 
   // DELETE
   deleteComplaint(id: number): Observable<void> {

@@ -6,17 +6,13 @@
       </div>
       <div class="flex flex-wrap items-center justify-between pb-8">
         <div class="flex flex-wrap text-white">
-          <div class="pr-10">
-            <div class="text-2xl font-bold">45</div>
-            <div class="">In Progress</div>
+          <div *ngFor="let status of complaintStatusList" class="pr-10">
+            <div class="text-2xl font-bold">{{ statusStats[status] }}</div>
+            <div>{{ getStatusLabel(status) }}</div>
           </div>
           <div class="pr-10">
-            <div class="text-2xl font-bold">24</div>
-            <div class="">Upcoming</div>
-          </div>
-          <div>
-            <div class="text-2xl font-bold">62</div>
-            <div class="">Total Projects</div>
+            <div class="text-2xl font-bold">{{ complaints.length }}</div>
+            <div>Total</div>
           </div>
         </div>
         <div class="mt-4 flex items-center md:mt-0">
@@ -98,18 +94,30 @@
       <!-- Grid View -->
       <div *ngSwitchCase="'grid'" class="flex flex-wrap">
         <div *ngFor="let complaint of complaints" class="w-full md:w-4/12 lg:w-4/12 xl:w-3/12">
+
+         
+
           <div class="p-2 h-full">
-            <div class="rounded-3xl p-4 h-full flex flex-col" [class]="getCardColor(complaint.status)">
-              <div class="flex justify-between items-center">
-                <span class="text-sm font-medium text-gray-700">
-                  {{ complaint.complaintDate | date:'dd/MM/yyyy' }}
-                </span>
+            
+            <div class="rounded-3xl p-4 h-full flex flex-col relative" [ngClass]="getCardColor(complaint.status)">
+               <!-- Bouton d'édition - Position corrigée -->
+              
+              <div class="flex justify-between items-center">                
                 <span class="text-xs px-2 py-1 rounded-full" [class]="getStatusClass(complaint.status)">
                   {{ complaint.status || 'N/A' }}
                 </span>
+                <button 
+                (click)="openEdit(complaint)"
+                class="absolute top-4 right-4 p-2 text-gray-500 hover:text-blue-600 transition-colors z-10 bg-white bg-opacity-70 rounded-full">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                </svg>
+              </button>
               </div>
-              
-              <div class="mt-4 flex-grow">
+              <span class="text-sm font-medium text-gray-700">
+                {{ complaint.complaintDate | date:'dd/MM/yyyy' }}
+              </span>
+              <div class="mt-4 flex-grow">              
                 <h3 class="text-lg font-bold text-gray-800 mb-1">
                   {{ getCategoryLabel(complaint.category) }}
                 </h3>
@@ -223,10 +231,109 @@
 </div>      
            
           
-      </div>  
+      </div>
     </div>  
 
+
+    <!-- Edit Side Panel -->
+<!-- Modal Backdrop -->
+<div *ngIf="showEditPanel" class="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"></div>
+
+<!-- Edit Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center transition-all duration-300"
+     [class.opacity-0]="!showEditPanel"
+     [class.pointer-events-none]="!showEditPanel"
+     [class.opacity-100]="showEditPanel">
+     
+  <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 transform transition-all"
+       [class.scale-95]="!showEditPanel"
+       [class.scale-100]="showEditPanel">
+    
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Modifier Réclamation</h2>
+      <button 
+        (click)="showEditPanel = false"
+        class="text-gray-500 hover:text-gray-700 transition-colors">
+        ✕
+      </button>
     </div>
+
+    <form [formGroup]="editForm" class="space-y-4">
+      <!-- Dynamic Status Badge -->
+      <div class="inline-flex items-center px-3 py-1 rounded-full text-sm"
+           [ngClass]="getStatusClass(editForm.get('status')?.value)">
+        {{ editForm.get('status')?.value || 'Non défini' }}
+      </div>
+
+      <!-- Form Fields -->
+
+      
+      <!-- Categorie -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700">Catégorie</label>
+        <select 
+          formControlName="category"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option *ngFor="let category of complaintCategoriesList" [value]="category">
+            {{ getCategoryLabel(category) }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea
+          formControlName="description"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          rows="4"
+          placeholder="Décrivez la réclamation..."></textarea>
+      </div>
+
+      <!-- Interactive Status Select -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700">Statut</label>
+        <select 
+          formControlName="status"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option *ngFor="let status of ComplaintStatus | keyvalue" [value]="status.key">
+            {{ status.value }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Resolution Details -->
+      <div class="form-group" *ngIf="editForm.get('status')?.value === ComplaintStatus.RESOLU">
+        <label class="block text-sm font-medium text-gray-700">Détails de résolution</label>
+        <textarea
+          formControlName="resolutionDetails"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          rows="3"
+          placeholder="Ajoutez les détails de la résolution..."></textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6 flex justify-end space-x-3">
+        <button
+          type="button"
+          (click)="showEditPanel = false"
+          class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          (click)="submitUpdate()"
+          [disabled]="editForm.invalid"
+          class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-all">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>
+
+
     <!-- Section messages client (à droite) -->
     <div class="mt-8 w-full lg:mt-0 lg:w-4/12 lg:pl-4">
       <div class="rounded-3xl bg-gray-800 px-6 pt-6">
