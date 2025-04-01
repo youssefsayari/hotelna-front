@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';  // Import Router for redirection
+
 import {DashboardService} from "../dashboard.service";
 
 @Component({
@@ -8,10 +10,18 @@ import {DashboardService} from "../dashboard.service";
 
 })
 export class TopBarComponent {
-  constructor(private dashboard: DashboardService) {
+  constructor(private dashboard: DashboardService,    private router: Router 
+  ) {
+    
   }
 
   openSidebar(){
     this.dashboard.openSidebar()
+  }
+  logout() {
+    localStorage.clear();  
+    sessionStorage.clear();
+
+    this.router.navigate(['/login']);
   }
 }
