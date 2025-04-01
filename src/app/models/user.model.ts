@@ -2,6 +2,9 @@
     idUser: number;
     firstName: string;
     lastName: string;
+    password: string;
     email: string;
-    //kamel houni ya kthiri
+    telephone: number;
+    typeUser: string; // Add this property
+    otp?: number;
   }

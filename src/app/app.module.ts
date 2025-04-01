@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,7 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { ComplaintComponent } from './pages/complaint/complaint.component';
 
 
 // icons
@@ -27,6 +30,7 @@ import { CreditIconComponent } from './dashboard/icons/credit-icon/credit-icon.c
 import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.component';
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
+import { ComplaintIconComponent } from './dashboard/icons/complaint-icon/complaint-icon.component';
 
 
 @NgModule({
@@ -48,6 +52,8 @@ import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-
     StatusComponent,
     ArchiveComponent,
     SettingsComponent,
+    ComplaintComponent,
+
 
     // icons
     HomeIconComponent,
@@ -55,9 +61,10 @@ import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
+    ComplaintIconComponent,
 
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
