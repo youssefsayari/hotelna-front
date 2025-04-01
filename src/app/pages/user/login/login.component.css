@@ -64,3 +64,36 @@
   background-color: #007bff;
   color: white;
 }
+/* login.component.css */
+
+/* Style for the Add User button */
+.add-user-btn-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.add-user-btn {
+  background-color: #28a745; /* Green background */
+  color: white; /* White text */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.add-user-btn:focus {
+  outline: none;
+}
+
+.add-user-btn:active {
+  background-color: #1e7e34; /* Even darker green when clicked */
+  transform: scale(1); /* Prevent scaling when clicked */
+}
