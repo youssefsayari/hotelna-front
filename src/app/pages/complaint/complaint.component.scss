@@ -250,3 +250,69 @@ button:disabled {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.modern-swal {
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  
+  &-success {
+    .swal2-title {
+      color: #065f46 !important;
+    }
+    .swal2-success {
+      border-color: #059669 !important;
+    }
+    .swal2-success-ring {
+      border-color: rgba(5, 150, 105, 0.3) !important;
+    }
+  }
+  
+  &-error {
+    .swal2-title {
+      color: #b91c1c !important;
+    }
+    .swal2-x-mark {
+      color: #dc2626 !important;
+    }
+  }
+}
+
+.swal2-confirm {
+  transition: all 0.3s ease !important;
+  &:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2) !important;
+  }
+}
+
+
+
+.action-buttons {
+  display: flex;
+  gap: 8px; /* Espacement entre les boutons */
+  align-items: center;
+  
+  button {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  
+  .edit-btn:hover {
+    color: #3b82f6 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+  }
+  
+  .delete-btn:hover {
+    color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+  }
+}
+
+.scrollable-container {
+  max-height: 24rem; /* 96 * 0.25rem (tailwind max-h-96) */
+  overflow-y: auto;
+}

@@ -72,7 +72,8 @@ import { ComplaintIconComponent } from './dashboard/icons/complaint-icon/complai
     AppRoutingModule, 
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule],
+    BrowserAnimationsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })
