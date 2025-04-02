@@ -5,6 +5,8 @@ import { Complaint } from '../../models/complaint.model';
 import { ComplaintStatus } from '../../models/complaint-status.enum';
 import { ComplaintCategories } from '../../models/complaint-categories.enum';
 import Swal from 'sweetalert2';
+import { trigger, transition, style, animate } from '@angular/animations';
+
 
 
 
@@ -12,7 +14,18 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-complaint',
   templateUrl: './complaint.component.html',
-  styleUrls: ['./complaint.component.scss']
+  styleUrls: ['./complaint.component.scss'],
+  animations: [
+    trigger('modalAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('200ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
+      ])
+    ])
+  ]
 })
 export class ComplaintComponent implements OnInit, OnDestroy {
   currentTime: string = '';
@@ -33,6 +46,8 @@ complaintCategoriesList = Object.values(ComplaintCategories).filter(
 selectedComplaint?: Complaint;
 editForm!: FormGroup;
 showEditPanel = false;
+updating = false;
+
 
 statusStats: {[key in ComplaintStatus]: number} = {
   [ComplaintStatus.OUVERT]: 0,
@@ -43,55 +58,131 @@ statusStats: {[key in ComplaintStatus]: number} = {
 
 complaintStatusList = Object.values(ComplaintStatus);
 
- 
+currentStatusFilter: ComplaintStatus | null = null;
+totalComplaintsCount: number = 0;
+
+showCreateModal = false;
+creating = false;
+createForm!: FormGroup;
+
 constructor( 
   private complaintService: ComplaintService,
   private fb: FormBuilder) 
   { this.initForm();}
 
   private initForm(): void {
-    this.editForm = this.fb.group({
-      description: ['', [Validators.required, Validators.maxLength(500)]],
-      category: [null as ComplaintCategories | null, Validators.required],
-      status: ['', Validators.required],
-      resolutionDetails: ['']
+    // Formulaire de création
+    this.createForm = this.fb.group({
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
+      category: ['', Validators.required]
     });
+  
+    // Formulaire d'édition
+    this.editForm = this.fb.group({
+      description: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(1000)]],
+      category: ['', Validators.required],
+      status: ['', Validators.required],
+      resolutionDetails: ['', [Validators.maxLength(2000)]]
+    });
+  }
+  // Méthodes pour gérer le modal
+  openCreateModal(): void {
+    this.createForm.reset();
+    this.showCreateModal = true;
   }
   openEdit(complaint: Complaint): void {
     this.selectedComplaint = complaint;
+    
     this.editForm.patchValue({
       description: complaint.description,
-      category: complaint.category, // Initialise la catégorie
+      category: complaint.category,
       status: complaint.status,
       resolutionDetails: complaint.resolutionDetails || '',
-      complaintDate: new Date(complaint.complaintDate)
+      complaintDate: this.parseDate(complaint.complaintDate)
     });
+    
+    this.onStatusChange();
     this.showEditPanel = true;
   }
-
-  submitUpdate(): void {
-    if (this.editForm.valid && this.selectedComplaint) {
-      const updatedComplaint = {
-        ...this.selectedComplaint,
-        ...this.editForm.value
-      };
-  
-      this.complaintService.updateComplaint(updatedComplaint.id!, updatedComplaint)
-        .subscribe({
-          next: (res) => {
-            const index = this.complaints.findIndex(c => c.id === res.id);
-            this.complaints[index] = res;
-            this.updateStats(); // Rafraîchit les stats après modification
-            this.showEditPanel = false;
-            this.showNotification('Réclamation mise à jour avec succès', true);
-          },
-          error: (err) => {
-            this.showNotification('Erreur lors de la mise à jour', false);
-            console.error('Update error:', err);
-          }
-        });
-    }
+  closeCreateModal(): void {
+    this.showCreateModal = false;
+    this.creating = false;
   }
+  // Soumission du formulaire
+submitCreate(): void {
+  if (this.createForm.valid) {
+    this.creating = true;
+    const newComplaint: Partial<Complaint> = {
+      description: this.createForm.value.description,
+      category: this.createForm.value.category,
+      status: ComplaintStatus.OUVERT // Statut par défaut
+    };
+
+    // Remplacez userId par l'ID réel de l'utilisateur connecté
+    const userId = 2; // À remplacer par l'ID de l'utilisateur connecté
+
+    this.complaintService.createComplaint(newComplaint as Complaint, userId)
+      .subscribe({
+        next: (createdComplaint) => {
+          this.complaints.push(createdComplaint); 
+          this.updateStatusStats();
+          this.totalComplaintsCount++;
+          this.closeCreateModal();
+          this.showNotification('Réclamation créée avec succès', true);
+        },
+        error: (err) => {
+          this.creating = false;
+          this.showNotification('Erreur lors de la création', false);
+          console.error('Create error:', err);
+        }
+      });
+  }
+}
+
+submitUpdate(): void {
+  if (this.editForm.valid && this.selectedComplaint) {
+    this.updating = true;
+    
+    // Préparer l'objet de mise à jour
+    const updatedComplaint = {
+      ...this.selectedComplaint,
+      ...this.editForm.value,
+      
+      // S'assurer que la date de résolution est mise à jour si le statut passe à RESOLU
+      resolutionDate: this.editForm.value.status === ComplaintStatus.RESOLU 
+        ? new Date().toISOString() 
+        : this.selectedComplaint.resolutionDate
+    };
+
+    this.complaintService.updateComplaint(updatedComplaint.id!, updatedComplaint)
+      .subscribe({
+        next: (res) => {
+          const index = this.complaints.findIndex(c => c.id === res.id);
+          this.complaints[index] = res;
+          this.updateStatusStats();
+          this.updating = false;
+          this.showEditPanel = false;
+          this.showNotification('Réclamation mise à jour avec succès', true);
+        },
+        error: (err) => {
+          this.updating = false;
+          // Afficher les détails de l'erreur
+          let errorMessage = 'Erreur lors de la mise à jour';
+
+          if (err.error?.details) {
+            // Erreurs de validation
+            errorMessage += ': ' + err.error.details.join(', ');
+          } else if (err.error?.message) {
+            // Erreur métier
+            errorMessage = err.error.message;
+          }
+
+          this.showNotification(errorMessage, false);
+
+        }
+      });
+  }
+}
 
   private showNotification(message: string, isSuccess: boolean = true): void {
     Swal.fire({
@@ -119,21 +210,18 @@ constructor(
   loadComplaints(): void {
     this.loading = true;
     this.error = null;
-    
+  
     this.complaintService.getAllComplaints().subscribe({
-      next: (data) => {
-        this.complaints = data;
-        this.updateStats(); // Ajoutez cette ligne
+      next: (complaints) => {
+        this.complaints = complaints;
+        this.totalComplaintsCount = complaints.length; // Stocke le total
+        this.updateStatusStats();
         this.loading = false;
       },
       error: (err) => {
+        this.error = 'Failed to load complaints';
         this.loading = false;
-        if (err.status === 403) {
-          this.error = 'Access forbidden - check your authentication';
-        } else {
-          this.error = 'Failed to load complaints. Please try again later.';
-        }
-        console.error('Error details:', err);
+        console.error(err);
       }
     });
   }
@@ -153,6 +241,22 @@ constructor(
         return 'bg-gray-100 text-gray-800';
     }
   }
+  // Méthode pour gérer le changement de statut
+    onStatusChange(): void {
+      const status = this.editForm.get('status')?.value;
+      const resolutionDetails = this.editForm.get('resolutionDetails');
+      
+      if (status === ComplaintStatus.RESOLU) {
+        resolutionDetails?.setValidators([
+          Validators.required, 
+          Validators.maxLength(2000),
+           Validators.minLength(10)
+        ]);
+      } else {
+        resolutionDetails?.clearValidators();
+      }
+      resolutionDetails?.updateValueAndValidity();
+    }
   getProgressWidth(status: ComplaintStatus | undefined): number {
     if (!status) return 0;
     
@@ -199,8 +303,6 @@ constructor(
     this.viewMode = mode;
   }
 
-
-
   private updateTime(): void {
     const now = new Date();
     this.currentTime = this.formatTunisianTime(now);
@@ -224,17 +326,58 @@ constructor(
       clearInterval(this.timer);
     }
   }
-private updateStats(): void {
-  // Réinitialiser les stats
-  for (const status in this.statusStats) {
-    this.statusStats[status as ComplaintStatus] = 0;
+
+updateStatusStats(): void {
+  this.complaintStatusList.forEach(status => {
+    this.statusStats[status] = this.complaints.filter(c => c.status === status).length;
+  });
+}
+filterByStatus(status: ComplaintStatus): void {
+  if (this.currentStatusFilter === status) {
+    this.resetFilter();
+    return;
   }
 
-  // Compter les réclamations par statut
-  this.complaints.forEach(complaint => {
-    if (complaint.status) {
-      this.statusStats[complaint.status]++;
+  this.currentStatusFilter = status;
+  this.loading = true;
+  this.error = null;
+
+  this.complaintService.getComplaintsByStatus(status).subscribe({
+    next: (complaints) => {
+      this.complaints = complaints;
+      this.loading = false;
+    },
+    error: (err) => {
+      this.error = 'Failed to load filtered complaints';
+      this.loading = false;
+      console.error(err);
     }
   });
+}
+resetFilter(): void {
+  this.currentStatusFilter = null;
+  this.loadComplaints(); // Recharge toutes les réclamations
+}
+private parseDate(dateInput: any): Date {
+  if (dateInput instanceof Date) {
+    return dateInput;
+  }
+  
+  if (Array.isArray(dateInput)) {
+    const [year, month, day, hour = 0, minute = 0, second = 0] = dateInput;
+    return new Date(year, month - 1, day, hour, minute, second);
+  }
+  
+  if (typeof dateInput === 'string') {
+    return new Date(dateInput);
+  }
+  
+  // Si le format est inconnu, retournez la date actuelle
+  console.warn('Format de date non reconnu:', dateInput);
+  return new Date();
+}
+formatDate(dateInput: any): string {
+  const date = this.parseDate(dateInput);
+  return date.toLocaleDateString('fr-FR'); // Format: dd/mm/yyyy
 }
 }

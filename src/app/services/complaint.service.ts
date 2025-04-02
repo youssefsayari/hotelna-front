@@ -3,6 +3,8 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Complaint} from '../models/complaint.model';
+import { ComplaintStatus } from '../models/complaint-status.enum'; // Assurez-vous d'importer l'enum
+
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +58,19 @@ private handleError<T>(operation = 'operation') {
   // DELETE
   deleteComplaint(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/deleteComplaint/${id}`);
+  }
+  getComplaintsByStatus(status: ComplaintStatus): Observable<Complaint[]> {
+    return this.http.get<Complaint[]>(
+      `${this.baseUrl}/getComplaintsByStatus/${status}`,
+      {
+        headers: new HttpHeaders({
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }),
+        responseType: 'json'
+      }
+    ).pipe(
+      catchError(this.handleError<Complaint[]>('getComplaintsByStatus'))
+    );
   }
 }

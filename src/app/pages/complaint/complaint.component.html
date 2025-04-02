@@ -6,16 +6,30 @@
       </div>
       <div class="flex flex-wrap items-center justify-between pb-8">
         <div class="flex flex-wrap text-white">
-          <div *ngFor="let status of complaintStatusList" class="pr-10">
+          <div *ngFor="let status of complaintStatusList" class="pr-10 cursor-pointer" 
+               (click)="filterByStatus(status)"
+               [class.font-bold]="currentStatusFilter === status"
+     [class.text-blue-400]="currentStatusFilter === status">
             <div class="text-2xl font-bold">{{ statusStats[status] }}</div>
             <div>{{ getStatusLabel(status) }}</div>
           </div>
-          <div class="pr-10">
-            <div class="text-2xl font-bold">{{ complaints.length }}</div>
+          <div class="pr-10 cursor-pointer" (click)="resetFilter()"
+          [class.font-bold]="!currentStatusFilter"
+          [class.text-blue-400]="!currentStatusFilter">
+            <div class="text-2xl font-bold">{{ totalComplaintsCount }}</div>
             <div>Total</div>
           </div>
         </div>
         <div class="mt-4 flex items-center md:mt-0">
+           <!-- Bouton Nouvelle Réclamation -->
+            <button 
+            (click)="openCreateModal()"
+            class="mr-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Nouvelle Réclamation
+          </button>
           <button 
           class="text-white" 
           [class.bg-gray-700]="viewMode === 'list'"
@@ -115,7 +129,7 @@
               </button>
               </div>
               <span class="text-sm font-medium text-gray-700">
-                {{ complaint.complaintDate | date:'dd/MM/yyyy' }}
+                {{ formatDate(complaint.complaintDate) }}
               </span>
               <div class="mt-4 flex-grow">              
                 <h3 class="text-lg font-bold text-gray-800 mb-1">
@@ -154,7 +168,7 @@
                   </span>
                 </div>
                 <span class="text-xs px-2 py-1 rounded bg-white bg-opacity-70">
-                  {{ complaint.user.typeUser || 'User' }}
+                  Role : {{ complaint.user.typeUser || 'User' }}
                 </span>
               </div>
             </div>
@@ -178,7 +192,7 @@
     <tbody class="bg-gray-800 divide-y divide-gray-700">
       <tr *ngFor="let complaint of complaints" class="hover:bg-gray-700">
         <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
-          {{ complaint.complaintDate | date:'dd/MM/yyyy' }}
+          {{ formatDate(complaint.complaintDate) }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="flex items-center">
@@ -234,21 +248,82 @@
       </div>
     </div>  
 
+<!-- Create Complaint Modal -->
+<div *ngIf="showCreateModal" @modalAnimation class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6 transform transition-all duration-300">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Nouvelle Réclamation</h2>
+      <button 
+        (click)="closeCreateModal()"
+        class="text-gray-500 hover:text-gray-700 transition-colors">
+        ✕
+      </button>
+    </div>
 
-    <!-- Edit Side Panel -->
-<!-- Modal Backdrop -->
-<div *ngIf="showEditPanel" class="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"></div>
+    <form [formGroup]="createForm" (ngSubmit)="submitCreate()" class="space-y-4">
+      <!-- Catégorie -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700">Catégorie</label>
+        <select 
+          formControlName="category"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option value="" disabled selected>Sélectionnez une catégorie</option>
+          <option *ngFor="let category of complaintCategoriesList" [value]="category">
+            {{ getCategoryLabel(category) }}
+          </option>
+        </select>
+      </div>
 
+      <!-- Description -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea
+          formControlName="description"
+          maxlength="1000"
+          minlength="10"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          rows="4"
+          placeholder="Décrivez votre réclamation en détail..."></textarea>
+          <div *ngIf="createForm.get('description')?.touched && createForm.get('description')?.errors">
+            <p class="text-red-500 text-xs mt-1" *ngIf="createForm.get('description')?.errors?.['required']">
+              La description est obligatoire
+            </p>
+            <p class="text-red-500 text-xs mt-1" *ngIf="createForm.get('description')?.errors?.['minlength']">
+              Minimum 10 caractères
+            </p>
+            <p class="text-red-500 text-xs mt-1" *ngIf="createForm.get('description')?.errors?.['maxlength']">
+              Maximum 1000 caractères
+            </p>
+          </div>
+      </div>
+
+      <!-- Boutons d'action -->
+      <div class="mt-6 flex justify-end space-x-3">
+        <button
+          type="button"
+          (click)="closeCreateModal()"
+          class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          [disabled]="createForm.invalid || creating"
+          class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-all flex items-center">
+          <span *ngIf="creating" class="inline-block mr-2">
+            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </span>
+          {{ creating ? 'Création en cours...' : 'Créer Réclamation' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 <!-- Edit Modal -->
-<div class="fixed inset-0 z-50 flex items-center justify-center transition-all duration-300"
-     [class.opacity-0]="!showEditPanel"
-     [class.pointer-events-none]="!showEditPanel"
-     [class.opacity-100]="showEditPanel">
-     
-  <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 transform transition-all"
-       [class.scale-95]="!showEditPanel"
-       [class.scale-100]="showEditPanel">
-    
+<div *ngIf="showEditPanel" @modalAnimation class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6 transform transition-all duration-300">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold text-gray-800">Modifier Réclamation</h2>
       <button 
@@ -258,60 +333,96 @@
       </button>
     </div>
 
-    <form [formGroup]="editForm" class="space-y-4">
-      <!-- Dynamic Status Badge -->
+    <form [formGroup]="editForm" (ngSubmit)="submitUpdate()" class="space-y-4">
+      <!-- Badge de statut dynamique -->
       <div class="inline-flex items-center px-3 py-1 rounded-full text-sm"
            [ngClass]="getStatusClass(editForm.get('status')?.value)">
-        {{ editForm.get('status')?.value || 'Non défini' }}
+        {{ getStatusLabel(editForm.get('status')?.value) || 'Non défini' }}
       </div>
 
-      <!-- Form Fields -->
-
-      
-      <!-- Categorie -->
+      <!-- Catégorie -->
       <div class="form-group">
         <label class="block text-sm font-medium text-gray-700">Catégorie</label>
         <select 
           formControlName="category"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option value="" disabled>Sélectionnez une catégorie</option>
           <option *ngFor="let category of complaintCategoriesList" [value]="category">
             {{ getCategoryLabel(category) }}
           </option>
         </select>
+        <div *ngIf="editForm.get('category')?.touched && editForm.get('category')?.errors">
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('category')?.errors?.['required']">
+            La catégorie est obligatoire
+          </p>
+        </div>
       </div>
 
+      <!-- Description -->
       <div class="form-group">
         <label class="block text-sm font-medium text-gray-700">Description</label>
         <textarea
           formControlName="description"
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          maxlength="1000"
+          minlength="10"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 textarea-custom"
           rows="4"
           placeholder="Décrivez la réclamation..."></textarea>
+        <div *ngIf="editForm.get('description')?.touched && editForm.get('description')?.errors">
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('description')?.errors?.['required']">
+            La description est obligatoire
+          </p>
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('description')?.errors?.['minlength']">
+            Minimum 10 caractères
+          </p>
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('description')?.errors?.['maxlength']">
+            Maximum 1000 caractères
+          </p>
+        </div>
       </div>
 
-      <!-- Interactive Status Select -->
+      <!-- Statut -->
       <div class="form-group">
         <label class="block text-sm font-medium text-gray-700">Statut</label>
         <select 
           formControlName="status"
+          (change)="onStatusChange()"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-          <option *ngFor="let status of ComplaintStatus | keyvalue" [value]="status.key">
-            {{ status.value }}
+          <option *ngFor="let status of complaintStatusList" [value]="status">
+            {{ getStatusLabel(status) }}
           </option>
         </select>
+        <div *ngIf="editForm.get('status')?.touched && editForm.get('status')?.errors">
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('status')?.errors?.['required']">
+            Le statut est obligatoire
+          </p>
+        </div>
       </div>
 
-      <!-- Resolution Details -->
+      <!-- Détails de résolution (conditionnel) -->
       <div class="form-group" *ngIf="editForm.get('status')?.value === ComplaintStatus.RESOLU">
         <label class="block text-sm font-medium text-gray-700">Détails de résolution</label>
         <textarea
           formControlName="resolutionDetails"
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          maxlength="2000"
+          minlength="10"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 textarea-custom"
           rows="3"
           placeholder="Ajoutez les détails de la résolution..."></textarea>
+        <div *ngIf="editForm.get('resolutionDetails')?.touched && editForm.get('resolutionDetails')?.errors">
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('resolutionDetails')?.errors?.['required']">
+            Les détails de résolution sont obligatoires pour un statut "Résolu"
+          </p>
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('resolutionDetails')?.errors?.['minlength']">
+            Min 10 caractères
+          </p>
+          <p class="text-red-500 text-xs mt-1" *ngIf="editForm.get('resolutionDetails')?.errors?.['maxlength']">
+            Maximum 2000 caractères
+          </p>
+        </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Boutons d'action -->
       <div class="mt-6 flex justify-end space-x-3">
         <button
           type="button"
@@ -321,10 +432,15 @@
         </button>
         <button
           type="submit"
-          (click)="submitUpdate()"
-          [disabled]="editForm.invalid"
-          class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-all">
-          Enregistrer
+          [disabled]="editForm.invalid || updating"
+          class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-all flex items-center">
+          <span *ngIf="updating" class="inline-block mr-2">
+            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </span>
+          {{ updating ? 'Enregistrement...' : 'Enregistrer' }}
         </button>
       </div>
     </form>
