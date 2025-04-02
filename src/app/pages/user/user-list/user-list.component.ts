@@ -74,13 +74,15 @@ export class UserListComponent implements OnInit {
         '</div>',
       focusConfirm: false,
       preConfirm: () => {
+        const newPassword = (document.getElementById('swal-input5') as HTMLInputElement).value;
+
         return {
           idUser: user.idUser,
           firstName: (document.getElementById('swal-input1') as HTMLInputElement).value,
           lastName: (document.getElementById('swal-input2') as HTMLInputElement).value,
           email: (document.getElementById('swal-input3') as HTMLInputElement).value,
           telephone: (document.getElementById('swal-input4') as HTMLInputElement).value,
-          password: (document.getElementById('swal-input5') as HTMLInputElement).value,
+          password: newPassword ? newPassword : user.password, // Keep old password if empty
           typeUser: (document.getElementById('swal-input6') as HTMLSelectElement).value,
         };
       },
