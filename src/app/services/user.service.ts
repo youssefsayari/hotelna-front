@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders  } from '@angular/common/http';
+import { HttpClient,HttpHeaders,HttpParams  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model'; 
 
@@ -36,12 +36,25 @@ export class UserService {
   }
 
   verifyOtp(email: string, otp: number): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/verify-otp`, {email, otp});
-  }
+    const params = new HttpParams()
+        .set('email', email)
+        .set('otp', otp.toString());
 
-  changePassword(email: string, newPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/change-password`, {email, newPassword});
-  }
+    return this.http.post<boolean>(`${this.apiUrl}/verify-otp`, null, { params });
+}
+
+
+changePassword(email: string, newPassword: string): Observable<any> {
+  let params = new HttpParams()
+    .set('email', email)
+    .set('newPassword', newPassword);
+
+  return this.http.post(`${this.apiUrl}/change-password`, null, {
+    headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'}),
+    params: params
+  });
+}
+
 
   login(email: string, password: string): Observable<User> {
     const headers = new HttpHeaders({

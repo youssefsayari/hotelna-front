@@ -134,4 +134,115 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
 
+
+
+    async forgotPassword() {
+      const { value: email } = await Swal.fire({
+        title: '📧 Forgot Password',
+        input: 'email',
+        inputPlaceholder: 'Enter your email address',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Send OTP',
+        confirmButtonColor: '#28a745',
+        width: '50%',
+        showLoaderOnConfirm: true,
+        preConfirm: async (email) => {
+          if (!email) {
+            Swal.showValidationMessage('⚠️ Please enter a valid email address');
+            return false;
+          }
+  
+          try {
+            await this.userService.sendOtp(email).toPromise();
+            return email;
+          } catch (error) {
+            Swal.showValidationMessage('❌ Failed to send OTP. Try again.');
+            return false;
+          }
+        }
+      });
+  
+      if (email) {
+        await this.requestOtp(email);
+      }
+    }
+  
+    async requestOtp(email: string) {
+      const { value: otp } = await Swal.fire({
+        title: '🔑 Enter OTP',
+        input: 'text',
+        inputPlaceholder: 'Enter the OTP sent to your email',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Verify OTP',
+        confirmButtonColor: '#28a745',
+        width: '50%',
+        showLoaderOnConfirm: true,
+        preConfirm: async (otp) => {
+          if (!otp) {
+            Swal.showValidationMessage('⚠️ Please enter the OTP');
+            return false;
+          }
+  
+          try {
+            console.log(`Verifying OTP: ${otp} for email: ${email}`);
+            const response = await this.userService.verifyOtp(email, +otp).toPromise();
+  
+            if (response === true) { 
+              return otp;
+            } else {
+              Swal.showValidationMessage('❌ Invalid OTP. Try again.');
+              return false;
+            }
+          } catch (error) {
+            console.error('Error verifying OTP:', error);
+            Swal.showValidationMessage('⚠️ Invalid OTP. Try again.');
+            return false;
+          }
+        }
+      });
+  
+      if (otp) {
+        await this.changePassword(email);
+      }
+    }
+  
+    async changePassword(email: string) {
+      const { value: newPassword } = await Swal.fire({
+        title: '🔒 Change Password',
+        input: 'password',
+        inputPlaceholder: 'Enter your new password',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Change Password',
+        confirmButtonColor: '#28a745',
+        width: '50%',
+        showLoaderOnConfirm: true,
+        preConfirm: async (newPassword) => {
+          if (!newPassword) {
+            Swal.showValidationMessage('⚠️ Please enter a new password');
+            return false;
+          }
+  
+          try {
+            await this.userService.changePassword(email, newPassword).toPromise();
+            Swal.fire({
+              title: '✅ Success',
+              text: 'Your password has been changed!',
+              icon: 'success',
+              width: '50%',
+              confirmButtonColor: '#28a745'
+            });
+            return true;
+          } catch (error) {
+            Swal.showValidationMessage('❌ Error changing password. Try again.');
+            return false;
+          }
+        }
+      });
+    }
 }

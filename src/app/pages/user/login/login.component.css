@@ -97,3 +97,44 @@
   background-color: #1e7e34; /* Even darker green when clicked */
   transform: scale(1); /* Prevent scaling when clicked */
 }
+.forgot-password-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.forgot-password-btn:hover {
+  color: #0056b3;
+}
+.swal-custom-popup {
+  width: 40vh !important;
+  height: 40vh !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  border-radius: 20px !important;
+  padding: 20px !important;
+  font-size: 18px !important;
+  background: #f8f9fa !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.swal-custom-button {
+  background-color: #007bff !important;
+  color: white !important;
+  font-size: 16px !important;
+  padding: 12px 20px !important;
+  border-radius: 6px !important;
+}
