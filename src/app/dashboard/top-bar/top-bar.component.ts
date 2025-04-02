@@ -24,4 +24,7 @@ export class TopBarComponent {
 
     this.router.navigate(['/login']);
   }
+  goToProfile() {
+    this.router.navigate(['/profile']); 
+  }
 }

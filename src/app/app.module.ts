@@ -31,6 +31,7 @@ import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-ico
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
 import { LoginComponent } from './pages/user/login/login.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { LoginComponent } from './pages/user/login/login.component';
     SettingsIconComponent,
     UserIconComponent,
     LoginComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule, 

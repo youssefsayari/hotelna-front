@@ -8,6 +8,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
 const routes: Routes = [
   { 
     path: 'login', 
@@ -15,6 +16,7 @@ const routes: Routes = [
     data: { noLayout: true } 
   },
   { path: 'home', component: HomeComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'admin/status', component: StatusComponent },
   { path: 'admin/archives', component: ArchiveComponent },
   { path: 'admin/credits', component: CreditComponent },
