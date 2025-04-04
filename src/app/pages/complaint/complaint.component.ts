@@ -45,6 +45,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
         animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
       ])
     ]),
+    
     trigger('loadingBar', [
       state('loading', style({
         width: '100%',
@@ -63,6 +64,13 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
   ]
 })
 export class ComplaintComponent implements OnInit, OnDestroy {
+  /*------------------------------user Connecte---------------------*/
+    userId: number = 1;
+    typeUser: string = 'Admin'; 
+    userFirstName: string = 'Amen';
+     
+  /*------------------------------user Connecte---------------------*/
+
   currentTime: string = '';
   private timer: any;
 
@@ -134,8 +142,12 @@ constructor(
     this.showCreateModal = true;
   }
   openEdit(complaint: Complaint): void {
+    if (this.typeUser !== 'Admin' && complaint.status !== ComplaintStatus.OUVERT) {
+      this.showNotification('Modification impossible : la réclamation n\'est pas ouverte.', false);
+      return;
+    }
+  
     this.selectedComplaint = complaint;
-    
     this.editForm.patchValue({
       description: complaint.description,
       category: complaint.category,
@@ -143,7 +155,11 @@ constructor(
       resolutionDetails: complaint.resolutionDetails || '',
       complaintDate: this.parseDate(complaint.complaintDate)
     });
-    
+  
+    if (this.typeUser !== 'Admin') {
+      this.editForm.get('status')?.disable();
+    }
+  
     this.onStatusChange();
     this.showEditPanel = true;
   }
@@ -162,7 +178,7 @@ submitCreate(): void {
     };
 
     // Remplacez userId par l'ID réel de l'utilisateur connecté
-    const userId = 2; // À remplacer par l'ID de l'utilisateur connecté
+    const userId = this.userId; // À remplacer par l'ID de l'utilisateur connecté
 
     this.complaintService.createComplaint(newComplaint as Complaint, userId)
       .subscribe({
@@ -254,10 +270,14 @@ submitUpdate(): void {
     this.loading = true;
     this.error = null;
   
-    this.complaintService.getAllComplaints().subscribe({
+    const observable = this.typeUser === 'Admin' 
+      ? this.complaintService.getAllComplaints()
+      : this.complaintService.getComplaintsByUser(this.userId);
+  
+    observable.subscribe({
       next: (complaints) => {
         this.complaints = complaints;
-        this.totalComplaintsCount = complaints.length; // Stocke le total
+        this.totalComplaintsCount = complaints.length;
         this.updateStatusStats();
         this.loading = false;
       },

@@ -97,8 +97,22 @@ deleteComplaint(id: number): Observable<void> {
       catchError(this.handleError<Complaint[]>('getComplaintsByStatus'))
     );
   }
-  // Ajouter dans ComplaintService
-// Dans votre ComplaintService
+// In complaint.service.ts
+getComplaintsByUser(userId: number): Observable<Complaint[]> {
+  return this.http.get<Complaint[]>(
+    `${this.baseUrl}/getComplaintsByUser/${userId}`,
+    {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }),
+      responseType: 'json'
+    }
+  ).pipe(
+    catchError(this.handleError<Complaint[]>('getComplaintsByUser'))
+  );
+}
+  // --------------------------------------------------------PARITIE IA-----------------------------------------------------------------
 generateAiSolution(category: ComplaintCategories, description: string): Observable<any> {
   const params = new HttpParams()
     .set('category', category)
