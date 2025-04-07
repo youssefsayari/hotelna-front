@@ -76,6 +76,8 @@ export class UserListComponent implements OnInit {
       preConfirm: () => {
         const newPassword = (document.getElementById('swal-input5') as HTMLInputElement).value;
 
+        
+
         return {
           idUser: user.idUser,
           firstName: (document.getElementById('swal-input1') as HTMLInputElement).value,
@@ -141,28 +143,22 @@ export class UserListComponent implements OnInit {
       title: 'Add New User 📝',
       html:
         '<div style="text-align: left;">' +
-          '<label style="font-weight: 600;">👤 Prenom:</label>' +
-          '<br>' +
+          '<label style="font-weight: 600;">👤 Prenom:</label><br>' +
           '<input id="swal-input1" class="swal2-input" placeholder="Prenom">' +
           '<br>' +
-          '<label style="font-weight: 600; margin-top: 10px;">👤 Nom:</label>' +
-          '<br>' +
+          '<label style="font-weight: 600; margin-top: 10px;">👤 Nom:</label><br>' +
           '<input id="swal-input2" class="swal2-input" placeholder="Nom">' +
           '<br>' +
-          '<label style="font-weight: 600; margin-top: 10px;">📧 Email:</label>' +
+          '<label style="font-weight: 600; margin-top: 10px;">📧 Email:</label><br>' +
+          '<input id="swal-input3" class="swal2-input" placeholder="email@example.com">' +
           '<br>' +
-          '<input id="swal-input3" class="swal2-input" placeholder="email">' +
-          '<br>' +
-          '<label style="font-weight: 600; margin-top: 10px;">📞 Telephone:</label>' +
-          '<br>' +
+          '<label style="font-weight: 600; margin-top: 10px;">📞 Telephone:</label><br>' +
           '<input id="swal-input4" class="swal2-input" placeholder="+123456789">' +
           '<br>' +
-          '<label style="font-weight: 600; margin-top: 10px;">🔒 Password:</label>' +
-          '<br>' +
+          '<label style="font-weight: 600; margin-top: 10px;">🔒 Password:</label><br>' +
           '<input id="swal-input5" type="password" class="swal2-input" placeholder="••••••••">' +
           '<br>' +
-          '<label style="font-weight: 600; margin-top: 10px;">👥Type:</label>' +
-        
+          '<label style="font-weight: 600; margin-top: 10px;">👥 Type:</label>' +
           '<select id="swal-input6" class="swal2-input">' +
             '<option value="Admin">👤 Admin</option>' +
             '<option value="Visiteur">👥 Visiteur</option>' +
@@ -170,42 +166,70 @@ export class UserListComponent implements OnInit {
         '</div>',
       focusConfirm: false,
       preConfirm: () => {
-        const userData = {
-          firstName: (document.getElementById('swal-input1') as HTMLInputElement).value,
-          lastName: (document.getElementById('swal-input2') as HTMLInputElement).value,
-          email: (document.getElementById('swal-input3') as HTMLInputElement).value,
-          telephone: (document.getElementById('swal-input4') as HTMLInputElement).value,
-          password: (document.getElementById('swal-input5') as HTMLInputElement).value,
-          typeUser: (document.getElementById('swal-input6') as HTMLSelectElement).value,
-        };
+        const firstName = (document.getElementById('swal-input1') as HTMLInputElement).value.trim();
+        const lastName = (document.getElementById('swal-input2') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('swal-input3') as HTMLInputElement).value.trim();
+        const telephone = (document.getElementById('swal-input4') as HTMLInputElement).value.trim();
+        const password = (document.getElementById('swal-input5') as HTMLInputElement).value.trim();
+        const typeUser = (document.getElementById('swal-input6') as HTMLSelectElement).value;
+  
+        const nameRegex = /^[A-Za-zÀ-ÿ\s'-]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[+0-9\s\-]{6,20}$/;
 
-        return userData;
+        if (!firstName || !lastName || !email || !telephone || !password || !typeUser) {
+          Swal.showValidationMessage('🚫 All fields are required.');
+          return;
+        }
+  
+        if (!firstName || !nameRegex.test(firstName)) {
+          Swal.showValidationMessage('❌ Prenom ne doit contenir que des lettres.');
+          return;
+        }
+        if (!lastName || !nameRegex.test(lastName)) {
+          Swal.showValidationMessage('❌ Prenom ne doit contenir que des lettres.');
+          return;
+        }
+        if (!email || !emailRegex.test(email)) {
+          Swal.showValidationMessage('❌ Format Email invalide .');
+          return;
+        }
+        if (!telephone || !phoneRegex.test(telephone)) {
+          Swal.showValidationMessage('❌ Format Telephone invalide.');
+          return;
+        }
+       
+  
+        return {
+          firstName,
+          lastName,
+          email,
+          telephone,
+          password,
+          typeUser
+        };
       },
       confirmButtonText: 'Add User',
       confirmButtonColor: '#28a745',
       cancelButtonText: 'Cancel',
       cancelButtonColor: '#dc3545',
-      showCancelButton: true,
-      customClass: {
-        popup: 'custom-swal'
-      }
+      showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         this.userService.addUser(result.value as User)
           .subscribe({
             next: (response) => {
-              console.log("Response from addUser API:", response); // Log the response from API
-              Swal.fire('Success!', 'User has been added. 🎉', 'success');
-              this.loadUsers();  // Refresh the list after successful addition
+              Swal.fire('✅ Success!', 'User has been added. 🎉', 'success');
+              this.loadUsers();
             },
             error: (error) => {
-              console.error("Error from addUser API:", error); // Log the error from API
-              Swal.fire('Error!', 'Failed to add user. 😞 ' + error.message, 'error');
+              Swal.fire('❌ Error!', 'Failed to add user. ' + error.message, 'error');
             }
           });
       }
     });
   }
+  
 
 }
   
