@@ -43,49 +43,71 @@ export class UserListComponent implements OnInit {
 
   editUser(user: User): void {
     Swal.fire({
-      title: 'Edit User',
+      title: 'Edit User ✏️',
       html:
         '<div style="text-align: left;">' +
-        `<label style="font-weight: 600;">👤 Prenom:</label>` +
-        '<br>' +
-        `<input id="swal-input1" class="swal2-input" value="${user.firstName}">` +
-        '<br>' +
-        `<label style="font-weight: 600; margin-top: 10px;">👤 Nom:</label>` +
-        '<br>' +
-        `<input id="swal-input2" class="swal2-input" value="${user.lastName}">` +
-        '<br>' +
-        `<label style="font-weight: 600; margin-top: 10px;">📧 Email:</label>` +
-        '<br>' +
-        `<input id="swal-input3" class="swal2-input" value="${user.email}">` +
-        '<br>' +
-        `<label style="font-weight: 600; margin-top: 10px;">📞 Telephone:</label>` +
-        '<br>' +
-        `<input id="swal-input4" class="swal2-input" value="${user.telephone}">` +
-        '<br>' +
-        `<label style="font-weight: 600; margin-top: 10px;">🔒 Password:</label>` +
-        '<br>' +
+        `<label style="font-weight: 600;">👤 Prenom:</label><br>` +
+        `<input id="swal-input1" class="swal2-input" value="${user.firstName}" placeholder="Prenom">` +
+        `<br><label style="font-weight: 600; margin-top: 10px;">👤 Nom:</label><br>` +
+        `<input id="swal-input2" class="swal2-input" value="${user.lastName}" placeholder="Nom">` +
+        `<br><label style="font-weight: 600; margin-top: 10px;">📧 Email:</label><br>` +
+        `<input id="swal-input3" class="swal2-input" value="${user.email}" placeholder="email@example.com">` +
+        `<br><label style="font-weight: 600; margin-top: 10px;">📞 Telephone:</label><br>` +
+        `<input id="swal-input4" class="swal2-input" value="${user.telephone}" placeholder="+123456789">` +
+        `<br><label style="font-weight: 600; margin-top: 10px;">🔒 Password:</label><br>` +
         `<input id="swal-input5" type="password" class="swal2-input" placeholder="Enter new or leave old">` +
-        '<br>' +
-        `<label style="font-weight: 600; margin-top: 10px;">👥 Type:</label>` +
+        `<br><label style="font-weight: 600; margin-top: 10px;">👥 Type:</label>` +
         `<select id="swal-input6" class="swal2-input">` +
           `<option value="Admin" ${user.typeUser === 'Admin' ? 'selected' : ''}>👤 Admin</option>` +
-          `<option value="Visiteur" ${user.typeUser === 'Visiteur' ? 'selected' : ''}>👥 Visitor</option>` +
+          `<option value="Visiteur" ${user.typeUser === 'Visiteur' ? 'selected' : ''}>👥 Visiteur</option>` +
         `</select>` +
         '</div>',
       focusConfirm: false,
       preConfirm: () => {
-        const newPassword = (document.getElementById('swal-input5') as HTMLInputElement).value;
-
-        
-
+        const firstName = (document.getElementById('swal-input1') as HTMLInputElement).value.trim();
+        const lastName = (document.getElementById('swal-input2') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('swal-input3') as HTMLInputElement).value.trim();
+        const telephone = (document.getElementById('swal-input4') as HTMLInputElement).value.trim();
+        const newPassword = (document.getElementById('swal-input5') as HTMLInputElement).value.trim();
+        const typeUser = (document.getElementById('swal-input6') as HTMLSelectElement).value;
+  
+        const nameRegex = /^[A-Za-zÀ-ÿ\s'-]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[+0-9\s\-]{6,20}$/;
+  
+        if (!firstName || !lastName || !email || !telephone || !typeUser) {
+          Swal.showValidationMessage('🚫 All fields except password are required.');
+          return;
+        }
+  
+        if (!nameRegex.test(firstName)) {
+          Swal.showValidationMessage('❌ Prenom ne doit contenir que des lettres.');
+          return;
+        }
+  
+        if (!nameRegex.test(lastName)) {
+          Swal.showValidationMessage('❌ Nom ne doit contenir que des lettres.');
+          return;
+        }
+  
+        if (!emailRegex.test(email)) {
+          Swal.showValidationMessage('❌ Format Email invalide.');
+          return;
+        }
+  
+        if (!phoneRegex.test(telephone)) {
+          Swal.showValidationMessage('❌ Format Telephone invalide.');
+          return;
+        }
+  
         return {
           idUser: user.idUser,
-          firstName: (document.getElementById('swal-input1') as HTMLInputElement).value,
-          lastName: (document.getElementById('swal-input2') as HTMLInputElement).value,
-          email: (document.getElementById('swal-input3') as HTMLInputElement).value,
-          telephone: (document.getElementById('swal-input4') as HTMLInputElement).value,
-          password: newPassword ? newPassword : user.password, // Keep old password if empty
-          typeUser: (document.getElementById('swal-input6') as HTMLSelectElement).value,
+          firstName,
+          lastName,
+          email,
+          telephone,
+          password: newPassword ? newPassword : user.password,
+          typeUser
         };
       },
       showCancelButton: true,
@@ -95,22 +117,20 @@ export class UserListComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        console.log("Data sent to update:", result.value); // Log the data being sent to update
-        this.userService.updateUser(result.value as User)
-          .subscribe({
-            next: (response) => {
-              console.log("Response from updateUser API:", response); // Log the response from API
-              Swal.fire('Updated!', 'User details have been updated.', 'success');
-              this.loadUsers();  // Refresh the list after successful update
-            },
-            error: (error) => {
-              console.error("Error from updateUser API:", error); // Log the error from API
-              Swal.fire('Error!', 'Failed to update user. 😞 ' + error.message, 'error');
-            }
-          });
+        console.log("Data sent to update:", result.value);
+        this.userService.updateUser(result.value as User).subscribe({
+          next: (response) => {
+            Swal.fire('✅ Updated!', 'User details have been updated.', 'success');
+            this.loadUsers();
+          },
+          error: (error) => {
+            Swal.fire('❌ Error!', 'Failed to update user. ' + error.message, 'error');
+          }
+        });
       }
     });
   }
+  
   
 
   deleteUser(idUser: number): void {
