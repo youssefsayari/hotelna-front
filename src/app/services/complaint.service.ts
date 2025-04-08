@@ -12,7 +12,7 @@ import { ComplaintSolutionIA } from '../models/complaint-solution-ia.model'; // 
   providedIn: 'root'
 })
 export class ComplaintService {
-    private baseUrl = 'http://localhost:8090/innoxpert/complaint'; // URL du backend Spring Boot
+    private baseUrl = 'http://localhost:8095/complaint'; // URL du backend Spring Boot
 
   constructor(private http: HttpClient) {}
 
