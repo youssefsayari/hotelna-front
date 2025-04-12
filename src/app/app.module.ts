@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';  // <-- Add this line
 
 import { AppComponent } from './app.component';
 
@@ -23,6 +22,13 @@ import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
+import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
+import { RestaurantComponent } from './pages/restaurant/restaurant.component';
+import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
+import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
+import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
 
 // icons
 import { HomeIconComponent } from './dashboard/icons/home-icon/home-icon.component';
@@ -31,16 +37,7 @@ import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.c
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
-import { LoginComponent } from './pages/user/login/login.component';
-import { ProfileComponent } from './pages/user/profile/profile.component';
 import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component';
-import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
-import { RestaurantComponent } from './pages/restaurant/restaurant.component';
-import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
-import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
-import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
-import {ReactiveFormsModule} from "@angular/forms";
-
 
 @NgModule({
   declarations: [
@@ -62,6 +59,13 @@ import {ReactiveFormsModule} from "@angular/forms";
     ArchiveComponent,
     SettingsComponent,
     UserListComponent,
+    LoginComponent,
+    ProfileComponent,
+    SpaListComponent,
+    RestaurantComponent,
+    AddRestaurantComponent,
+    DetailRestaurantComponent,
+    UpdateRestaurantComponent,
 
     // icons
     HomeIconComponent,
@@ -70,25 +74,16 @@ import {ReactiveFormsModule} from "@angular/forms";
     StatusIconComponent,
     SettingsIconComponent,
     UserIconComponent,
-    LoginComponent,
-    ProfileComponent,
     SpaIconComponent,
-    SpaListComponent,
   ],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
-    HttpClientModule, 
-    FormsModule  // <-- Add this line
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,           // For ngModel
+    ReactiveFormsModule    // For reactive forms
   ],
-    RestaurantComponent,
-    AddRestaurantComponent,
-    DetailRestaurantComponent,
-    UpdateRestaurantComponent,
-
-  ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,HttpClientModule,],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
