@@ -45,7 +45,7 @@ export class SpaListComponent implements OnInit {
           '<label for="name">🌸 Nom :</label><br>' +
           '<input id="name" class="swal2-input" placeholder="Nom du spa">' +
           '<br><label for="description">📝 Description :</label><br>' +
-          '<input id="description" class="swal2-input" placeholder="Description du spa">' +
+          '<textarea id="description" class="swal2-textarea" placeholder="Description du spa" style="height: 100px;"></textarea>' +
           '<br><label for="price">💰 Prix (DT) :</label><br>' +
           '<input id="price" type="number" class="swal2-input" placeholder="100">' +
           '<br><label for="available">✅ Disponibilité :</label><br>' +
@@ -105,7 +105,7 @@ export class SpaListComponent implements OnInit {
           `<label for="name">🌸 Nom :</label><br>` +
           `<input id="name" class="swal2-input" value="${spa.name}" placeholder="Nom du spa">` +
           `<br><label for="description">📝 Description :</label><br>` +
-          `<input id="description" class="swal2-input" value="${spa.description}" placeholder="Description du spa">` +
+          `<textarea id="description" class="swal2-textarea" style="height: 100px;">${spa.description}</textarea>` +
           `<br><label for="price">💰 Prix (DT) :</label><br>` +
           `<input id="price" type="number" class="swal2-input" value="${spa.price}" placeholder="100">` +
           `<br><label for="available">✅ Disponibilité :</label><br>` +

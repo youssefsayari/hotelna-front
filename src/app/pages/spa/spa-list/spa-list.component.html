@@ -21,7 +21,7 @@
         <tr *ngFor="let spa of filteredSpas">
           <td>{{ spa.name }}</td>
           <td>{{ spa.description }}</td>
-          <td>{{ spa.price }} D</td>
+          <td>{{ spa.price }} DT</td>
           <td>{{ spa.available ? 'Oui' : 'Non' }}</td>
           <td>
             <button class="btn btn-primary" (click)="editSpa(spa)">Modifier</button>
