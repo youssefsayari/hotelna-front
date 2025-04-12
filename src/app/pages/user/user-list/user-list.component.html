@@ -7,13 +7,13 @@
                 <div class="flex">
                     <input type="text" [(ngModel)]="searchName" (input)="filterUsers()" class="search-input" placeholder="Recherche">
                 </div>
-                <button class="btn btn-success" (click)="addUser()">➕ Add Meeting</button>
+                <button class="btn btn-success" (click)="addUser()">➕ Ajouter User</button>
             </div>
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Prenom</th>
+                        <th>Nom</th>
                         <th>Email</th>
                         <th>Telephone</th>
                         <th>User Type</th>
@@ -28,8 +28,8 @@
                         <td>{{ user.telephone }}</td>
                         <td>{{ user.typeUser }}</td>
                         <td>
-                            <button class="btn btn-primary" (click)="editUser(user)">Edit</button>
-                            <button class="btn btn-danger" (click)="deleteUser(user.idUser)">Delete</button>
+                            <button class="btn btn-primary" (click)="editUser(user)">Modifier</button>
+                            <button class="btn btn-danger" (click)="deleteUser(user.idUser)">Supprimer</button>
                         </td>
                     </tr>
                 </tbody>

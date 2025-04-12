@@ -4,16 +4,16 @@
       <div class="flex">
         <input type="text" [(ngModel)]="searchName" (input)="filterSpas()" class="search-input" placeholder="Search Spa by Name">
       </div>
-      <button class="btn btn-success" (click)="addSpa()">➕ Add Spa</button>
+      <button class="btn btn-success" (click)="addSpa()">➕ Ajouter Spa</button>
     </div>
   
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Nom</th>
           <th>Description</th>
-          <th>Price</th>
-          <th>Available</th>
+          <th>Prix</th>
+          <th>Disponnible</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -21,11 +21,11 @@
         <tr *ngFor="let spa of filteredSpas">
           <td>{{ spa.name }}</td>
           <td>{{ spa.description }}</td>
-          <td>{{ spa.price }}€</td>
-          <td>{{ spa.available ? 'Yes' : 'No' }}</td>
+          <td>{{ spa.price }} D</td>
+          <td>{{ spa.available ? 'Oui' : 'Non' }}</td>
           <td>
-            <button class="btn btn-primary" (click)="editSpa(spa)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteSpa(spa.id!)">Delete</button>
+            <button class="btn btn-primary" (click)="editSpa(spa)">Modifier</button>
+            <button class="btn btn-danger" (click)="deleteSpa(spa.id!)">Supprimer</button>
           </td>
         </tr>
       </tbody>
