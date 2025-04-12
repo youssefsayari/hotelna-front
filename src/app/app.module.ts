@@ -33,6 +33,7 @@ import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.compone
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component';
+import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component'
     LoginComponent,
     ProfileComponent,
     SpaIconComponent,
+    SpaListComponent,
   ],
   imports: [
     BrowserModule, 

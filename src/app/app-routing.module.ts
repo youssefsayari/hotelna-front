@@ -9,6 +9,7 @@ import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { AuthGuardService } from './services/auth-guard.service'; // Make sure the path is correct
+import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
 
 const routes: Routes = [
   { 
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: 'admin/credits', component: CreditComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'admin/settings', component: SettingsComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'userlist', component: UserListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  { path: 'spalist', component: SpaListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

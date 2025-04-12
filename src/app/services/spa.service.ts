@@ -15,7 +15,7 @@ export class SpaService {
     return this.http.get<Spa[]>(`${this.apiUrl}/getAllSpas`);
   }
 
-  getSpaById(id: number): Observable<Spa> {
+  getSpaById(id: string): Observable<Spa> {
     return this.http.get<Spa>(`${this.apiUrl}/getSpaById/${id}`);
   }
 
@@ -23,11 +23,12 @@ export class SpaService {
     return this.http.post<Spa>(`${this.apiUrl}/addSpa`, spa);
   }
 
-  updateSpa(id: number, spa: Spa): Observable<Spa> {
+  updateSpa(id: string, spa: Spa): Observable<Spa> {
     return this.http.put<Spa>(`${this.apiUrl}/updateSpa/${id}`, spa);
   }
 
-  deleteSpa(id: number): Observable<void> {
+  deleteSpa(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/deleteSpa/${id}`);
   }
+  
 }
