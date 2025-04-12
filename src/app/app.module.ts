@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';  // <-- Add this line
@@ -34,6 +35,12 @@ import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component';
 import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
+import { RestaurantComponent } from './pages/restaurant/restaurant.component';
+import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
+import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
+import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
+import {ReactiveFormsModule} from "@angular/forms";
+
 
 @NgModule({
   declarations: [
@@ -74,6 +81,13 @@ import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
     HttpClientModule, 
     FormsModule  // <-- Add this line
   ],
+    RestaurantComponent,
+    AddRestaurantComponent,
+    DetailRestaurantComponent,
+    UpdateRestaurantComponent,
+
+  ],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,HttpClientModule,],
   providers: [],
   bootstrap: [AppComponent],
 })

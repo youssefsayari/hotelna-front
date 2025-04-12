@@ -5,6 +5,7 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
@@ -25,9 +26,8 @@ const routes: Routes = [
   { path: 'admin/settings', component: SettingsComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'userlist', component: UserListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'spalist', component: SpaListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-
   { path: '', redirectTo: '/login', pathMatch: 'full' }
-];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,33 @@
+<div class="flex flex-wrap">
+  <div class="w-full rounded-3xl bg-gray-800 p-6 lg:w-12/12">
+    <div class="mb-8 flex items-center justify-between text-white">
+      <p class="text-2xl font-bold">Restaurant</p>
+      <a
+        routerLink="/admin/restaurants/add"
+        class="inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+      >
+        + Add Restaurant
+      </a>
+    </div>
+
+    <!-- Affichage des restaurants -->
+    <div class="flex flex-wrap justify-start">
+      <div
+        *ngFor="let restaurant of restaurants"
+        class="w-full md:w-4/12 p-2"
+      >
+        <div class="rounded-3xl bg-gray-300 p-4">
+          <div class="mb-4 text-center">
+            <p class="text-base font-bold opacity-70">{{ restaurant.name }}</p>
+            <p class="mt-2 text-sm opacity-70">{{ restaurant.description }}</p>
+          </div>
+          <div class="mb-4">
+            <p class="text-sm font-bold">Open Time: {{ restaurant.openTime }}</p>
+            <p class="text-sm font-bold">Close Time: {{ restaurant.closeTime }}</p>
+            <p class="text-sm font-bold">Status: {{ restaurant.status }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
