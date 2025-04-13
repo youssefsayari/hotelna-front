@@ -1,0 +1,89 @@
+<div class="flex flex-wrap">
+  <div class="w-full rounded-3xl bg-gray-800 p-6 lg:w-12/12">
+    <div class="mb-8 flex items-center justify-between text-white">
+      <p class="text-2xl font-bold">Ajouter un restaurant</p>
+    </div>
+
+    <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+        <!-- Nom -->
+        <div>
+          <label class="block mb-1 text-sm font-medium">Nom</label>
+          <input
+            formControlName="name"
+            class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Nom du restaurant"
+          />
+          <div *ngIf="name?.invalid && name?.touched" class="text-red-500 text-sm">
+            <div *ngIf="name?.errors?.['required']">Le nom est requis.</div>
+            <div *ngIf="name?.errors?.['minlength']">Le nom doit avoir au moins 4 caractères.</div>
+          </div>
+        </div>
+
+        <!-- Type de restaurant -->
+        <div>
+          <label class="block mb-1 text-sm font-medium">Type</label>
+          <input
+            formControlName="typeRestaurant"
+            class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Type (Italien, Japonais, etc.)"
+          />
+          <div *ngIf="typeRestaurant?.invalid && typeRestaurant?.touched" class="text-red-500 text-sm">
+            <div *ngIf="typeRestaurant?.errors?.['required']">Le type de restaurant est requis.</div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="md:col-span-2">
+          <label class="block mb-1 text-sm font-medium">Description</label>
+          <textarea
+            formControlName="description"
+            rows="3"
+            class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Description du restaurant"
+          ></textarea>
+          <div *ngIf="description?.invalid && description?.touched" class="text-red-500 text-sm">
+            <div *ngIf="description?.errors?.['required']">La description est requise.</div>
+            <div *ngIf="description?.errors?.['minlength']">La description doit avoir au moins 30 caractères.</div>
+          </div>
+        </div>
+
+        <!-- Heures -->
+        <div>
+          <label class="block mb-1 text-sm font-medium">Heure d'ouverture</label>
+          <input
+            type="time"
+            formControlName="openTime"
+            class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <div *ngIf="openTime?.invalid && openTime?.touched" class="text-red-500 text-sm">
+            <div *ngIf="openTime?.errors?.['required']">L'heure d'ouverture est requise.</div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Heure de fermeture</label>
+          <input
+            type="time"
+            formControlName="closeTime"
+            class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <div *ngIf="closeTime?.invalid && closeTime?.touched" class="text-red-500 text-sm">
+            <div *ngIf="closeTime?.errors?.['required']">L'heure de fermeture est requise.</div>
+            <div *ngIf="restaurantForm.hasError('timeInvalid')">L'heure d'ouverture doit être avant l'heure de fermeture.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 text-right">
+        <button
+          type="submit"
+          class="rounded-lg bg-green-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+          [disabled]="restaurantForm.invalid"
+        >
+          Ajouter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

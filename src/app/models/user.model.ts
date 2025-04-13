@@ -1,10 +1,10 @@
-  export interface User {
-    idUser: number;
-    firstName: string;
-    lastName: string;
-    password: string;
-    email: string;
-    telephone: number;
-    typeUser: string; // Add this property
-    otp?: number;
-  }
+export interface User {
+  idUser: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  telephone: number;
+  password: string;
+  OTP?: number;  
+  typeUser: 'Admin' | 'Visiteur';
+}
