@@ -6,11 +6,17 @@ import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 
+import {RestaurantComponent} from "./pages/restaurant/restaurant.component";
+import {AddRestaurantComponent} from "./pages/restaurant/add-restaurant/add-restaurant.component";
+import {DetailRestaurantComponent} from "./pages/restaurant/detail-restaurant/detail-restaurant.component";
+import {UpdateRestaurantComponent} from "./pages/restaurant/update-restaurant/update-restaurant.component";
+import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
+
 
 const routes: Routes = [
   { 
@@ -26,6 +32,11 @@ const routes: Routes = [
   { path: 'admin/settings', component: SettingsComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'userlist', component: UserListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
   { path: 'spalist', component: SpaListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  { path: 'admin/restaurants', component: RestaurantComponent },
+  { path: 'admin/restaurants/add', component: AddRestaurantComponent },
+  { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
+  { path: 'admin/restaurants/update/:id', component: UpdateRestaurantComponent },
+  { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

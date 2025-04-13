@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
 
 // dashboard components
 import { LayoutComponent } from './dashboard/layout/layout.component';
@@ -36,8 +37,18 @@ import { CreditIconComponent } from './dashboard/icons/credit-icon/credit-icon.c
 import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.component';
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
+
+import { RestaurantIconComponent } from './shared/icons/restaurant-icon/restaurant-icon.component';
+import { RestaurantComponent } from './pages/restaurant/restaurant.component';
+import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
+import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
+import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { AddTableModalComponent } from './pages/restaurant/detail-restaurant/add-table-modal/add-table-modal.component';
+import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
 import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component';
+
 
 @NgModule({
   declarations: [
@@ -73,16 +84,18 @@ import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component'
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
+    RestaurantIconComponent,
+    RestaurantComponent,
+    AddRestaurantComponent,
+    DetailRestaurantComponent,
+    UpdateRestaurantComponent,
+    AddTableModalComponent,
+    RateRestaurantComponent,
     UserIconComponent,
     SpaIconComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,           // For ngModel
-    ReactiveFormsModule    // For reactive forms
-  ],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,HttpClientModule,FormsModule],
+
   providers: [],
   bootstrap: [AppComponent]
 })
