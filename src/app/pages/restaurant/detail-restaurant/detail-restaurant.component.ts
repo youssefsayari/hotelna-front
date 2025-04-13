@@ -31,7 +31,7 @@ export class DetailRestaurantComponent implements OnInit {
   ngOnInit(): void {
     const storedId = sessionStorage.getItem('selectedRestaurantId');
     this.isAdmin = false;
-    
+
     this.restaurantService.getRestaurantById(Number(storedId)).subscribe(
       (data) => {
         this.restaurant = data;
@@ -72,8 +72,8 @@ export class DetailRestaurantComponent implements OnInit {
       }
     );
   }
-  
- 
+
+
 
   reserveTable(tableId: number): void {
     const userId = 1;
@@ -110,7 +110,7 @@ export class DetailRestaurantComponent implements OnInit {
       }
     );
   }
-  
+
   deleteTable(tableId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -152,8 +152,8 @@ export class DetailRestaurantComponent implements OnInit {
       }
     });
   }
-  
-  
+
+
 
   openAddTableModal(): void {
     this.showAddTableModal = true;
@@ -173,7 +173,7 @@ export class DetailRestaurantComponent implements OnInit {
     const sum = this.ratings.reduce((acc, rating) => acc + (rating.rate + 1), 0);
     return sum / this.ratings.length;
   }
-  
+
 
   navigateToRating(): void {
     this.router.navigate(['/admin/restaurants/rating', this.restaurant.id]);

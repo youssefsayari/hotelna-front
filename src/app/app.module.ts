@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
 
 // dashboard components
 import { LayoutComponent } from './dashboard/layout/layout.component';
@@ -26,10 +25,7 @@ import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
-import { RestaurantComponent } from './pages/restaurant/restaurant.component';
-import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
-import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
-import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
+
 
 // icons
 import { HomeIconComponent } from './dashboard/icons/home-icon/home-icon.component';
@@ -43,7 +39,6 @@ import { RestaurantComponent } from './pages/restaurant/restaurant.component';
 import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
 import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
 import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
-import {ReactiveFormsModule} from "@angular/forms";
 import { AddTableModalComponent } from './pages/restaurant/detail-restaurant/add-table-modal/add-table-modal.component';
 import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
 import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
