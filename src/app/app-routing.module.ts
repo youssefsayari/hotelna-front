@@ -10,6 +10,7 @@ import {RestaurantComponent} from "./pages/restaurant/restaurant.component";
 import {AddRestaurantComponent} from "./pages/restaurant/add-restaurant/add-restaurant.component";
 import {DetailRestaurantComponent} from "./pages/restaurant/detail-restaurant/detail-restaurant.component";
 import {UpdateRestaurantComponent} from "./pages/restaurant/update-restaurant/update-restaurant.component";
+import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'admin/restaurants', component: RestaurantComponent },
   { path: 'admin/restaurants/add', component: AddRestaurantComponent },
   { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
-  { path: 'admin/restaurants/update', component: UpdateRestaurantComponent },
+  { path: 'admin/restaurants/update/:id', component: UpdateRestaurantComponent },
+  { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },
 ];
 
 @NgModule({
