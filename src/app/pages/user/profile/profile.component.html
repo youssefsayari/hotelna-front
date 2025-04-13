@@ -1,0 +1,37 @@
+<div class="flex flex-wrap justify-center items-center min-h-screen bg-gray-800">
+  <div class="w-full max-w-4xl rounded-3xl bg-gray-700 p-6 text-white flex overflow-hidden">
+    <div class="w-1/2 flex flex-col justify-center items-center p-4">
+      <img src="./assets/images/profil.png" alt="Profile Picture" class="h-48 w-48 rounded-full object-cover shadow-lg">
+      <h3 class="mt-4 font-semibold text-xl">{{user?.firstName}} {{user?.lastName}}</h3>
+    </div>
+    <div class="w-1/2">
+      <h2 class="mb-4 text-center text-3xl font-bold">Mon Profile</h2>
+      <div *ngIf="user" class="container mx-auto">
+        <form (ngSubmit)="saveProfile()" class="space-y-4">
+          <div class="flex flex-col">
+            <label for="firstName" class="mb-1">Prénom:</label>
+            <input type="text" id="firstName" [(ngModel)]="user.firstName" name="firstName" required class="rounded-lg bg-gray-600 p-2 text-white outline-none focus:bg-gray-500">
+          </div>
+          <div class="flex flex-col">
+            <label for="lastName" class="mb-1">Nom:</label>
+            <input type="text" id="lastName" [(ngModel)]="user.lastName" name="lastName" required class="rounded-lg bg-gray-600 p-2 text-white outline-none focus:bg-gray-500">
+          </div>
+          <div class="flex flex-col">
+            <label for="email" class="mb-1">Email:</label>
+            <input type="email" id="email" [(ngModel)]="user.email" name="email" required class="rounded-lg bg-gray-600 p-2 text-white outline-none focus:bg-gray-500">
+          </div>
+          <div class="flex flex-col">
+            <label for="telephone" class="mb-1">Téléphone:</label>
+            <input type="text" id="telephone" [(ngModel)]="user.telephone" name="telephone" required class="rounded-lg bg-gray-600 p-2 text-white outline-none focus:bg-gray-500">
+          </div>
+          <div class="text-center">
+            <button type="submit" class="mt-4 w-full rounded-lg bg-blue-500 py-2 font-semibold hover:bg-blue-600 focus:outline-none">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="!user" class="text-center">
+        <p>Aucune donnée de profil disponible.</p>
+      </div>
+    </div>
+  </div>
+</div>

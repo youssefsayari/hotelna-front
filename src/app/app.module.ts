@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +22,14 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-
+import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
+import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
+import { RestaurantComponent } from './pages/restaurant/restaurant.component';
+import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
+import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
+import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
 
 // icons
 import { HomeIconComponent } from './dashboard/icons/home-icon/home-icon.component';
@@ -28,6 +37,7 @@ import { CreditIconComponent } from './dashboard/icons/credit-icon/credit-icon.c
 import { StatusIconComponent } from './dashboard/icons/status-icon/status-icon.component';
 import { ArchiveIconComponent } from './dashboard/icons/archive-icon/archive-icon.component';
 import { SettingsIconComponent } from './dashboard/icons/settings-icon/settings-icon.component';
+
 import { RestaurantIconComponent } from './shared/icons/restaurant-icon/restaurant-icon.component';
 import { RestaurantComponent } from './pages/restaurant/restaurant.component';
 import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
@@ -36,7 +46,8 @@ import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/
 import {ReactiveFormsModule} from "@angular/forms";
 import { AddTableModalComponent } from './pages/restaurant/detail-restaurant/add-table-modal/add-table-modal.component';
 import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
-
+import { UserIconComponent } from './dashboard/icons/user-icon/user-icon.component';
+import { SpaIconComponent } from './dashboard/icons/spa-icon/spa-icon.component';
 
 
 @NgModule({
@@ -58,6 +69,14 @@ import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate
     StatusComponent,
     ArchiveComponent,
     SettingsComponent,
+    UserListComponent,
+    LoginComponent,
+    ProfileComponent,
+    SpaListComponent,
+    RestaurantComponent,
+    AddRestaurantComponent,
+    DetailRestaurantComponent,
+    UpdateRestaurantComponent,
 
     // icons
     HomeIconComponent,
@@ -72,9 +91,12 @@ import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate
     UpdateRestaurantComponent,
     AddTableModalComponent,
     RateRestaurantComponent,
+    UserIconComponent,
+    SpaIconComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,HttpClientModule,FormsModule],
+
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
