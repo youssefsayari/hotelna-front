@@ -5,6 +5,8 @@ import { CreditComponent } from './pages/credit/credit.component';
 import { StatusComponent } from './pages/status/status.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { ComplaintComponent } from './pages/complaint/complaint.component';
+
 
 import {RestaurantComponent} from "./pages/restaurant/restaurant.component";
 import {AddRestaurantComponent} from "./pages/restaurant/add-restaurant/add-restaurant.component";
@@ -19,6 +21,7 @@ import { SpaListComponent } from './pages/spa/spa-list/spa-list.component';
 
 
 const routes: Routes = [
+
   { 
     path: 'login', 
     component: LoginComponent, 
@@ -36,7 +39,10 @@ const routes: Routes = [
   { path: 'admin/restaurants/add', component: AddRestaurantComponent },
   { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
   { path: 'admin/restaurants/update/:id', component: UpdateRestaurantComponent },
-  { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },
+  { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },  
+  /*start sayari*/
+    { path: 'admin/complaints', component: ComplaintComponent },
+   /*end sayari*/
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
