@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ComplaintService } from '../../services/complaint.service';
 import { Complaint } from '../../models/complaint.model';
+import { User } from '../../models/user.model'; 
 import { ComplaintStatus } from '../../models/complaint-status.enum';
 import { ComplaintSolutionIA } from '../../models/complaint-solution-ia.model'; // Adjust the path if necessary
 import { ComplaintCategories } from '../../models/complaint-categories.enum';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 
@@ -65,10 +67,10 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
 })
 export class ComplaintComponent implements OnInit, OnDestroy {
   /*------------------------------user Connecte---------------------*/
-    userId: number = 1;
-    typeUser: string = 'Admin'; 
-    userFirstName: string = 'Amen';
-     
+    user!: User; // Non-null assertion operator to indicate it will be assigned later
+    userId!: number;
+    typeUser!: string; 
+    userFirstName!: string ;     
   /*------------------------------user Connecte---------------------*/
 
   currentTime: string = '';
@@ -118,10 +120,10 @@ isNewSolution: boolean = false;
 
 constructor( 
   private complaintService: ComplaintService,
-  private fb: FormBuilder) 
+  private fb: FormBuilder,private router: Router)
   { this.initForm();}
 
-  private initForm(): void {
+   initForm(): void {
     // Formulaire de création
     this.createForm = this.fb.group({
       description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
@@ -261,10 +263,30 @@ submitUpdate(): void {
   }
 
   ngOnInit(): void {
+    this.loadUserProfile();
     this.updateTime();
     this.timer = setInterval(() => this.updateTime(), 1000);
     this.loadComplaints();
   }
+
+  loadUserProfile() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+      this.userId = this.user.idUser;
+      this.typeUser = this.user.typeUser; // Assurez-vous que le type d'utilisateur est bien défini dans le modèle User
+      this.userFirstName = this.user.firstName; // Assurez-vous que le prénom est bien défini dans le modèle User
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You must login First !.'
+      });
+      this.router.navigate(['/login']);
+    }
+  }
+
+
 
   loadComplaints(): void {
     this.loading = true;
