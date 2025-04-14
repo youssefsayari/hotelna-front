@@ -12,7 +12,7 @@ import {RestaurantComponent} from "./pages/restaurant/restaurant.component";
 import {AddRestaurantComponent} from "./pages/restaurant/add-restaurant/add-restaurant.component";
 import {DetailRestaurantComponent} from "./pages/restaurant/detail-restaurant/detail-restaurant.component";
 import {UpdateRestaurantComponent} from "./pages/restaurant/update-restaurant/update-restaurant.component";
-import { RateRestaurantComponent } from './pages/Restaurant/rate-restaurant/rate-restaurant.component';
+import { RateRestaurantComponent } from './pages/restaurant/rate-restaurant/rate-restaurant.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ProfileComponent } from './pages/user/profile/profile.component';
