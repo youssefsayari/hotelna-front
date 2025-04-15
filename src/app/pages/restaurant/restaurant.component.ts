@@ -3,6 +3,8 @@ import {Restaurant} from "../../models/restaurant";
 import {RestaurantService} from "../../services/restaurant.service";
 import {Router} from "@angular/router";
 import Swal from 'sweetalert2';
+import {User} from "../../models/user.model";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-restaurant',
@@ -12,20 +14,36 @@ import Swal from 'sweetalert2';
 export class RestaurantComponent implements OnInit {
   restaurants: Restaurant[] = [];
   isAdmin: boolean = false;
+  user: User | null = null;
 
   constructor(
     private restaurantService: RestaurantService,
-    private router: Router
+    private router: Router,private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.loadRestaurants();
-    this.checkAdminRole();
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+      this.checkAdminRole();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'No user data found in local storage.'
+      });
+    }
   }
 
   checkAdminRole(): void {
-    this.isAdmin = true;
+    this.isAdmin = this.user?.typeUser === 'Admin';
   }
+
 
   loadRestaurants(): void {
     this.restaurantService.getAllRestaurants().subscribe({
@@ -63,7 +81,7 @@ export class RestaurantComponent implements OnInit {
               icon: 'success',
               confirmButtonText: 'OK',
               confirmButtonColor: '#3085d6',
-            });            
+            });
             this.loadRestaurants();
           },
           error: (error) => {
@@ -74,10 +92,9 @@ export class RestaurantComponent implements OnInit {
       }
     });
   }
-  
+
 
   updateRestaurant(restaurant: Restaurant): void {
     this.router.navigate(['/admin/restaurants/update', restaurant.id]);
   }
 }
- 

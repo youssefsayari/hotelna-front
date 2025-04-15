@@ -6,6 +6,7 @@ import { RatingService } from '../../../services/rating.service';
 import { TableRes } from '../../../models/table-res';
 import { Rate, Rating } from '../../../models/rating';
 import Swal from 'sweetalert2';
+import {User} from "../../../models/user.model";
 
 @Component({
   selector: 'app-detail-restaurant',
@@ -18,6 +19,7 @@ export class DetailRestaurantComponent implements OnInit {
   ratings: Rating[] = [];
   loading = true;
   isAdmin = false;
+  user: User | null = null;
   showAddTableModal = false;
 
   constructor(
@@ -30,8 +32,7 @@ export class DetailRestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     const storedId = sessionStorage.getItem('selectedRestaurantId');
-    this.isAdmin = false;
-
+    this.loadUserProfile();
     this.restaurantService.getRestaurantById(Number(storedId)).subscribe(
       (data) => {
         this.restaurant = data;
@@ -43,6 +44,24 @@ export class DetailRestaurantComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  loadUserProfile() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+      this.checkAdminRole();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'No user data found in local storage.'
+      });
+    }
+  }
+
+  checkAdminRole(): void {
+    this.isAdmin = this.user?.typeUser === 'Admin';
   }
 
   loadTables(restaurantId: number): void {
@@ -76,7 +95,11 @@ export class DetailRestaurantComponent implements OnInit {
 
 
   reserveTable(tableId: number): void {
-    const userId = 1;
+    const userId = this.user?.idUser;
+    if (userId === undefined) {
+      console.error('User ID is undefined. Impossible de réserver.');
+      return;
+    }
     this.tableService.reserveTable(tableId, userId).subscribe(
       (data) => {
         this.loadTables(this.restaurant.id);
