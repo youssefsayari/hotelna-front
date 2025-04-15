@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
 
 })
 export class SidebarItemsComponent {
+  idUser: number = 0
+  typeUser:string = 'VISITEUR'
 
 }

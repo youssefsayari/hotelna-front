@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 
+
 // dashboard components
 import { LayoutComponent } from './dashboard/layout/layout.component';
 import { TopBarComponent } from './dashboard/top-bar/top-bar.component';
@@ -42,6 +43,11 @@ import { RestaurantComponent } from './pages/restaurant/restaurant.component';
 import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-restaurant.component';
 import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
 import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { ChambresListComponent } from './pages/chambres-list/chambres-list.component';
+import { ChambresVisiteurComponent } from './pages/chambres-visiteur/chambres-visiteur.component';
+import { ReservationSuccessComponent } from './pages/reservation-success/reservation-success.component';
+
 import { AddTableModalComponent } from './pages/restaurant/detail-restaurant/add-table-modal/add-table-modal.component';
 import { RateRestaurantComponent } from './pages/restaurant/rate-restaurant/rate-restaurant.component';
 import { ComplaintComponent } from './pages/complaint/complaint.component';
@@ -49,6 +55,8 @@ import { ComplaintComponent } from './pages/complaint/complaint.component';
 @NgModule({
   declarations: [
     AppComponent,
+    
+
 
     // dashboard
     LayoutComponent,
@@ -83,6 +91,15 @@ import { ComplaintComponent } from './pages/complaint/complaint.component';
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
+    RestaurantComponent,
+    AddRestaurantComponent,
+    DetailRestaurantComponent,
+    UpdateRestaurantComponent,
+    ChambresListComponent,
+    ChambresVisiteurComponent,
+    ReservationSuccessComponent,
+    
+
     ComplaintIconComponent,
     RestaurantIconComponent,
     UserIconComponent,
