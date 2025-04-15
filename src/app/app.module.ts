@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+
 // dashboard components
 import { LayoutComponent } from './dashboard/layout/layout.component';
 import { TopBarComponent } from './dashboard/top-bar/top-bar.component';
@@ -32,11 +33,16 @@ import { AddRestaurantComponent } from './pages/restaurant/add-restaurant/add-re
 import { DetailRestaurantComponent } from './pages/restaurant/detail-restaurant/detail-restaurant.component';
 import { UpdateRestaurantComponent } from './pages/restaurant/update-restaurant/update-restaurant.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { ChambresListComponent } from './pages/chambres-list/chambres-list.component';
+import { ChambresVisiteurComponent } from './pages/chambres-visiteur/chambres-visiteur.component';
+import { ReservationSuccessComponent } from './pages/reservation-success/reservation-success.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    
+
 
     // dashboard
     LayoutComponent,
@@ -64,6 +70,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     AddRestaurantComponent,
     DetailRestaurantComponent,
     UpdateRestaurantComponent,
+    ChambresListComponent,
+    ChambresVisiteurComponent,
+    ReservationSuccessComponent,
+    
 
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,HttpClientModule,],

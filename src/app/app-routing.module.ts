@@ -10,6 +10,9 @@ import {RestaurantComponent} from "./pages/restaurant/restaurant.component";
 import {AddRestaurantComponent} from "./pages/restaurant/add-restaurant/add-restaurant.component";
 import {DetailRestaurantComponent} from "./pages/restaurant/detail-restaurant/detail-restaurant.component";
 import {UpdateRestaurantComponent} from "./pages/restaurant/update-restaurant/update-restaurant.component";
+import {ChambresListComponent} from "./pages/chambres-list/chambres-list.component";
+import { ChambresVisiteurComponent } from './pages/chambres-visiteur/chambres-visiteur.component';
+import { ReservationSuccessComponent } from './pages/reservation-success/reservation-success.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +24,13 @@ const routes: Routes = [
   { path: 'admin/restaurants/add', component: AddRestaurantComponent },
   { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
   { path: 'admin/restaurants/update', component: UpdateRestaurantComponent },
+  { path: 'admin/chambres', component: ChambresListComponent },
+  {path: 'visiteur/chambres', component: ChambresVisiteurComponent},
+  { 
+    path: 'reservation-success', 
+    component: ReservationSuccessComponent 
+  },
+
 ];
 
 @NgModule({

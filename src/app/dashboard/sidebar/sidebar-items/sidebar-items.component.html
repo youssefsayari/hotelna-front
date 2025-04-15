@@ -1,4 +1,5 @@
 <div class="md:pl-4">
+
   <sidebar-item title="Home" routerLink="/">
     <home-icon></home-icon>
   </sidebar-item>
@@ -21,6 +22,14 @@
 
   <sidebar-item title="Settings" routerLink="/admin/settings">
     <settings-icon></settings-icon>
+  </sidebar-item>
+
+  <sidebar-item *ngIf="typeUser === 'ADMIN'" title="Chambres" routerLink="/admin/chambres"> 
+    <i class="fa fa-bed"></i> 
+  </sidebar-item>
+
+  <sidebar-item *ngIf="typeUser === 'VISITEUR'" title="Reserver" routerLink="/visiteur/chambres">
+    <i class="fa fa-bed"></i> 
   </sidebar-item>
 
 </div>

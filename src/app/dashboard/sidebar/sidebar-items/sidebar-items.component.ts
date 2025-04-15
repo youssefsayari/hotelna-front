@@ -5,5 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './sidebar-items.component.html'
 })
 export class SidebarItemsComponent {
+  idUser: number = 0
+  typeUser:string = 'VISITEUR'
 
 }
