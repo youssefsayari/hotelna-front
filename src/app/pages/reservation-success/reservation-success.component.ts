@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ChambreService } from '../../services/chambre.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { User } from '../../models/user.model';
+import { Router } from '@angular/router'; 
+
 
 @Component({
   selector: 'app-reservation-success',
@@ -11,6 +14,11 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ReservationSuccessComponent implements OnInit {
+      /*------------------------------user Connecte---------------------*/
+        user!: User; // Non-null assertion operator to indicate it will be assigned later
+        idUser!: number ;
+        typeUser!: string ; // Peut aussi être 'ADMIN'
+      /*------------------------------user Connecte---------------------*/
   // Propriétés existantes
   chambreNumero: string = '';
   chambreType: string = '';
@@ -26,10 +34,13 @@ export class ReservationSuccessComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private chambreService: ChambreService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
+    this.loadUserProfile();
     this.route.queryParams.subscribe(params => {
       this.chambreNumero = params['chambre_numero'] || '';
       this.chambreType = params['type'] || '';
@@ -47,6 +58,22 @@ export class ReservationSuccessComponent implements OnInit {
       }
     });
   }
+
+    loadUserProfile() {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        this.user = JSON.parse(userData);
+        this.idUser = this.user.idUser;
+        this.typeUser = this.user.typeUser; // Assurez-vous que le type d'utilisateur est bien défini dans le modèle User
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You must login First !.'
+        });
+        this.router.navigate(['/login']);
+      }
+    } 
 
   private calculateNights(startDate: string, endDate: string): number {
     if (!startDate || !endDate) return 0;
@@ -70,7 +97,7 @@ export class ReservationSuccessComponent implements OnInit {
   }
 
   reserverChambre(chambreId: number): void {
-    const userId = 3;
+    const userId = this.idUser;
     this.chambreService.reserverChambre(chambreId, userId).subscribe({
       next: () => {
         Swal.fire({
