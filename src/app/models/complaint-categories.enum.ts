@@ -1,7 +1,7 @@
 export enum ComplaintCategories {
     SERVICE = 'SERVICE',
     NETTOYAGE = 'NETTOYAGE',
-    EQUIPEMENT = 'EQUIPMENT',
+    EQUIPEMENT = 'EQUIPEMENT',
     RESERVATION = 'RESERVATION',
     AUTRE = 'AUTRE'
   }

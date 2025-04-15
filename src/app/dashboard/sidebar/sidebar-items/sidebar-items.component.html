@@ -1,26 +1,29 @@
 <div class="md:pl-4">
 
   <sidebar-item title="Home" routerLink="/">
+
+  <sidebar-item title="Home" routerLink="/home" [roles]="[]">
     <home-icon></home-icon>
   </sidebar-item>
 
-  <sidebar-item title="Status" routerLink="/admin/status">
+  <sidebar-item title="Status" routerLink="/admin/status" [roles]="['Admin']">
     <status-icon></status-icon>
   </sidebar-item>
 
-  <sidebar-item title="Archives" routerLink="/admin/archives">
+  <sidebar-item title="Archives" routerLink="/admin/archives" [roles]="['Admin']">
     <archive-icon></archive-icon>
   </sidebar-item>
 
-  <sidebar-item title="Restaurant" routerLink="/admin/restaurants">
-    <archive-icon></archive-icon>
+  <sidebar-item title="Restaurant" routerLink="/admin/restaurants" [roles]="[]">
+    <restaurant-icon></restaurant-icon>
   </sidebar-item>
 
-  <sidebar-item title="Credits" routerLink="/admin/credits">
+  <sidebar-item title="Credits" routerLink="/admin/credits" [roles]="['Admin']">
+
     <credit-icon></credit-icon>
   </sidebar-item>
 
-  <sidebar-item title="Settings" routerLink="/admin/settings">
+  <sidebar-item title="Settings" routerLink="/admin/settings" [roles]="['Admin']">
     <settings-icon></settings-icon>
   </sidebar-item>
 
@@ -30,6 +33,16 @@
 
   <sidebar-item *ngIf="typeUser === 'VISITEUR'" title="Reserver" routerLink="/visiteur/chambres">
     <i class="fa fa-bed"></i> 
+  <sidebar-item title="Complaints" routerLink="/admin/complaints">
+    <app-complaint-icon></app-complaint-icon>
+  </sidebar-item>
+
+  <sidebar-item title="Users" routerLink="/userlist" [roles]="['Admin']">
+    <app-user-icon></app-user-icon>
+  </sidebar-item>
+
+  <sidebar-item title="Spas" routerLink="/spalist" [roles]="['Admin']">
+    <app-spa-icon></app-spa-icon>
   </sidebar-item>
 
 </div>
