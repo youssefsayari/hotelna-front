@@ -4,8 +4,6 @@ import { DashboardService } from '../dashboard.service';
 @Component({
   selector: 'overlay',
   templateUrl: './overlay.component.html',
-  standalone: false
-
 })
 export class OverlayComponent {
   constructor(private dashboard: DashboardService) {}

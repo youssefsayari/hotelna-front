@@ -1,0 +1,94 @@
+<div class="container mx-auto p-6">
+    <div *ngIf="isLoading" class="text-center text-white">
+      <span class="text-lg">Chargement de l'activité...</span>
+    </div>
+  
+    <div *ngIf="error" class="text-center text-red-500">
+      <p>{{ error }}</p>
+    </div>
+  
+    <div *ngIf="!isLoading && activity" class="bg-gray-800 text-white rounded-2xl p-6 shadow-xl">
+      <h2 class="text-3xl font-bold text-yellow-400 mb-4">Inscription à l'activité</h2>
+  
+      <div class="mb-6">
+        <h3 class="text-2xl font-semibold text-yellow-300">{{ activity.name }}</h3>
+        <p class="text-sm mt-2"><strong>Type :</strong> {{ activity.typeActivity }}</p>
+        <p class="text-sm"><strong>Date :</strong> {{ activity.startDate }}</p>
+        <p class="text-sm"><strong>Heure :</strong> {{ activity.startTime }}</p>
+        <p class="text-sm"><strong>Prix :</strong> {{ activity.price }} TND</p>
+        <p class="text-sm mt-2">{{ activity.description }}</p>
+      </div>
+      
+  
+      <form [formGroup]="participationForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="mb-4">
+            <label for="firstName" class="block text-sm font-semibold text-gray-300">Prénom</label>
+            <input
+              type="text"
+              id="firstName"
+              class="w-full p-3 mt-1 rounded-lg bg-gray-700 text-white"
+              formControlName="firstName"
+              [value]="user?.firstName"
+              
+            />
+          </div>
+  
+          <div class="mb-4">
+            <label for="lastName" class="block text-sm font-semibold text-gray-300">Nom</label>
+            <input
+              type="text"
+              id="lastName"
+              class="w-full p-3 mt-1 rounded-lg bg-gray-700 text-white"
+              formControlName="lastName"
+              [value]="user?.lastName"
+              
+            />
+          </div>
+  
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-semibold text-gray-300">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="w-full p-3 mt-1 rounded-lg bg-gray-700 text-white"
+              formControlName="email"
+              [value]="user?.email"
+              
+            />
+          </div>
+  
+          <div class="mb-4">
+            <label for="telephone" class="block text-sm font-semibold text-gray-300">Téléphone</label>
+            <input
+              type="tel"
+              id="telephone"
+              class="w-full p-3 mt-1 rounded-lg bg-gray-700 text-white"
+              formControlName="telephone"
+              [value]="user?.telephone"
+              
+            />
+          </div>
+        </div>
+  
+        <div class="mt-6 flex justify-center gap-4">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full shadow-lg transition duration-200 text-lg"
+            [disabled]="participationForm.invalid"
+          >
+            ✋ Participer à l'activité
+          </button>
+        
+          <button
+            (click)="goBack()"
+            class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-full shadow-md transition duration-200 text-lg"
+          >
+            ⬅️ Retour à la liste
+          </button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  

@@ -1,0 +1,127 @@
+<div class="flex flex-wrap">
+    <div class="w-full rounded-3xl bg-gray-800 p-6 lg:w-12/12">
+      <div class="mb-8 flex items-center justify-between text-white">
+        <p class="text-2xl font-bold">Ajouter une activité</p>
+      </div>
+  
+      <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+          <!-- Name -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Nom</label>
+            <input
+              formControlName="name"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              placeholder="Nom de l'activité"
+            />
+            <div *ngIf="name?.invalid && name?.touched" class="text-red-500 text-sm">
+              <div *ngIf="name?.errors?.['required']">Le nom est requis.</div>
+              <div *ngIf="name?.errors?.['minlength']">Au moins 4 caractères requis.</div>
+            </div>
+          </div>
+  
+          <!-- Type -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Type d'activité</label>
+            <select
+              formControlName="typeActivity"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+            >
+              <option value="" disabled selected>Sélectionner un type</option>
+              <option *ngFor="let type of typeActivityOptions" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+            <div *ngIf="typeActivity?.invalid && typeActivity?.touched" class="text-red-500 text-sm">
+              Le type est requis.
+            </div>
+          </div>
+  
+          <!-- Date -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Date de début</label>
+            <input
+              type="date"
+              formControlName="startDate"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+            />
+            <div *ngIf="startDate?.invalid && startDate?.touched" class="text-red-500 text-sm">
+              La date est requise.
+            </div>
+          </div>
+  
+          <!-- Duration -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Heure de Début</label>
+            <input
+              type="time"
+              formControlName="startTime"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+            />
+            <div *ngIf="starTime?.invalid && starTime?.touched" class="text-red-500 text-sm">
+              La durée est requise.
+            </div>
+          </div>
+  
+          <!-- Description -->
+          <div class="md:col-span-2">
+            <label class="block mb-1 text-sm font-medium">Description</label>
+            <textarea
+              formControlName="description"
+              rows="3"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+              placeholder="Description de l'activité"
+            ></textarea>
+            <div *ngIf="description?.invalid && description?.touched" class="text-red-500 text-sm">
+              <div *ngIf="description?.errors?.['required']">La description est requise.</div>
+              <div *ngIf="description?.errors?.['minlength']">Minimum 30 caractères requis.</div>
+            </div>
+          </div>
+  
+          <!-- Price -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Prix</label>
+            <input
+              type="number"
+              formControlName="price"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+              placeholder="Prix de l'activité"
+            />
+            <div *ngIf="price?.invalid && price?.touched" class="text-red-500 text-sm">
+              Le prix est requis et doit être positif.
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+          
+          <!-- Capacity -->
+          <div>
+            <label class="block mb-1 text-sm font-medium">Capacité</label>
+            <input
+              type="number"
+              formControlName="capacity"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-white"
+              placeholder="Nombre maximum de participants"
+            />
+            <div *ngIf="capacity?.invalid && capacity?.touched" class="text-red-500 text-sm">
+              <div *ngIf="capacity?.errors?.['required']">La capacité est requise.</div>
+              <div *ngIf="capacity?.errors?.['min']">Doit être au moins 1.</div>
+            </div>
+          </div>
+        </div>
+        
+      
+  
+        <div class="mt-6 text-right">
+          <button
+            type="submit"
+            class="rounded-lg bg-green-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+            [disabled]="activityForm.invalid"
+          >
+            Ajouter
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

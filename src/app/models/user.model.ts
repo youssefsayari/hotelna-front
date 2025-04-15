@@ -1,10 +1,12 @@
+import { TypeUser } from './typeUser';
 export interface User {
-  idUser: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  telephone: number;
-  password: string;
-  OTP?: number;  
-  typeUser: 'Admin' | 'Visiteur';
+  idUser: number;       
+  firstName: string;    
+  lastName: string;     
+  password: string;    
+  email: string;       
+  telephone: number;    
+  OTP?: number;         
+  typeUser: TypeUser;   
 }
+
