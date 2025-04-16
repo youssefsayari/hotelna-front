@@ -1,0 +1,16 @@
+/* Style for the form elements */
+input {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  input:focus {
+    background-color: #1f2937;
+    border-color: #fbbf24;
+  }
+  
+  /* Hover effect for the submit button */
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
