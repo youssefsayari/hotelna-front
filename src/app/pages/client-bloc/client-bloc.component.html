@@ -1,0 +1,164 @@
+<div class="container mx-auto px-4 py-6">
+    <!-- Header: Title, Search Bar, and Sorting Dropdown -->
+    <div class="flex justify-between items-center mb-6">
+      <!-- Left Side: Title -->
+      <h1 class="text-2xl font-bold text-white">Liste des Blocs</h1>
+  
+      <!-- Right Side: Search Bar + Sorting Dropdown -->
+      <div class="flex items-center gap-4">
+        <!-- Search Bar -->
+        <div class="relative w-full sm:w-64">
+          <input
+            type="text"
+            [value]="searchTerm"
+            (input)="onSearchChange($any($event.target).value)"
+            placeholder="Rechercher par nom..."
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+          />
+          <svg
+            class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </div>
+  
+        <!-- Sorting Dropdown -->
+        <div class="relative inline-block text-left">
+          <button
+            (click)="toggleDropdown()"
+            class="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 border border-gray-300 rounded-md shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <span>Trier par</span>
+            <svg
+              [ngClass]="{'rotate-180': isDropdownOpen}"
+              class="w-4 h-4 transition-transform text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+  
+          <!-- Dropdown Menu -->
+          <div
+            *ngIf="isDropdownOpen"
+            class="absolute right-0 mt-1 w-56 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-10"
+          >
+            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <!-- Sort by Name -->
+              <button
+                (click)="toggleSortOrder('name'); toggleDropdown()"
+                class="flex justify-between w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                <span>Trier par nom</span>
+                <div *ngIf="sortCriterion === 'name'" class="flex items-center gap-1">
+                  <span>{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+                </div>
+              </button>
+  
+              <!-- Sort by Occupancy Rate -->
+              <button
+                (click)="toggleSortOrder('taux'); toggleDropdown()"
+                class="flex justify-between w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                <span>Trier par taux d'occupation</span>
+                <div *ngIf="sortCriterion === 'taux'" class="flex items-center gap-1">
+                  <span>{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+                </div>
+              </button>
+  
+              <!-- Sort by Chamber Count -->
+              <button
+                (click)="toggleSortOrder('chamberCount'); toggleDropdown()"
+                class="flex justify-between w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                <span>Trier par nombre de chambres</span>
+                <div *ngIf="sortCriterion === 'chamberCount'" class="flex items-center gap-1">
+                  <span>{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Grid of Bloc Cards -->
+    <div *ngIf="showCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" @fallIn>
+      <!-- Bloc Card -->
+      <div
+        *ngFor="let bloc of filteredBlocs; let i = index"
+        [class]="calculateOccupancyRate(bloc) === 100 ? 'opacity-50 pointer-events-none' : ''"
+        class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+        [style.animation-delay]="i * 100 + 'ms'"
+        (click)="calculateOccupancyRate(bloc) !== 100 ? navigateToChambres(bloc.idBloc) : null"
+      >
+        <!-- Card Header -->
+        <div [class]="getHeaderClass(bloc)">
+          <h2 class="text-xl font-bold text-white">{{ bloc.nomBloc }}</h2>
+          <p class="text-white/90">{{ bloc.nombreEtages }} étages</p>
+        </div>
+  
+        <!-- Card Body -->
+        <div class="p-4">
+          <!-- Number of Rooms -->
+          <div class="flex items-center mb-3 text-gray-600">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              ></path>
+            </svg>
+            {{ bloc.chambres?.length || 0 }} chambres
+          </div>
+  
+          <!-- Occupancy Rate -->
+          <div class="flex items-center mb-3 text-gray-600">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path>
+            </svg>
+            Taux d'occupation: <span class="font-medium ml-1">{{ calculateOccupancyRate(bloc) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- No Results Message -->
+    <div *ngIf="filteredBlocs.length === 0" class="text-center py-10">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-12 w-12 mx-auto text-gray-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+      <h3 class="text-2xl font-bold text-white">Aucun bloc trouvé</h3>
+      <p class="mt-1 text-gray-500">Essayez de modifier vos critères de recherche</p>
+    </div>
+  </div>
