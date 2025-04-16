@@ -4,9 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 
+// calendar
+import { FullCalendarModule } from '@fullcalendar/angular'; // Already imported FullCalendarModule
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid'; // Import the required plugin
 
 // dashboard components
 import { LayoutComponent } from './dashboard/layout/layout.component';
@@ -51,6 +55,19 @@ import { AddTableModalComponent } from './pages/restaurant/detail-restaurant/add
 import { RateRestaurantComponent } from './pages/restaurant/rate-restaurant/rate-restaurant.component';
 import { ComplaintComponent } from './pages/complaint/complaint.component';
 
+
+// activity pages
+import { AddActivityComponent } from './pages/activity/add-activity/add-activity.component';
+import { ActivityListComponent } from './pages/activity/activity-list/activity-list.component';
+import { UpdateActivityComponent } from './pages/activity/update-activity/update-activity.component';
+import { ActivityDetailsComponent } from './pages/activity/activity-details/activity-details.component';
+import { ActivityCalendarComponent } from './pages/activity/activity-calendar/activity-calendar.component';
+
+// forms
+import { ActivityListVisiteurComponent } from './pages/activity/activity-list-visiteur/activity-list-visiteur.component';
+import { ParticipateActivityComponent } from './pages/activity/participate-activity/participate-activity.component';
+import { ActivityStatsComponent } from './pages/activity/activity-stats/activity-stats.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,19 +107,33 @@ import { ComplaintComponent } from './pages/complaint/complaint.component';
     CreditIconComponent,
     StatusIconComponent,
     SettingsIconComponent,
+
     RestaurantComponent,
     AddRestaurantComponent,
     DetailRestaurantComponent,
     UpdateRestaurantComponent,
+
     ChambresListComponent,
     ChambresVisiteurComponent,
     ReservationSuccessComponent,
+
+    
     
 
     ComplaintIconComponent,
     RestaurantIconComponent,
     UserIconComponent,
-    SpaIconComponent
+    SpaIconComponent,
+    
+    // activities
+    AddActivityComponent,
+    ActivityListComponent,
+    UpdateActivityComponent,
+    ActivityDetailsComponent,
+    ActivityCalendarComponent,
+    ActivityListVisiteurComponent,
+    ParticipateActivityComponent,
+    ActivityStatsComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +141,9 @@ import { ComplaintComponent } from './pages/complaint/complaint.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    FullCalendarModule, 
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
