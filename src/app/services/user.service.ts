@@ -7,7 +7,7 @@ import { User } from 'src/app/models/user.model'; // Adjust the path based on wh
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://localhost:8090/user'; // Your backend base URL
+  private baseUrl = 'http://localhost:8095/user'; // Your backend base URL
 
   constructor(private http: HttpClient) {}
 

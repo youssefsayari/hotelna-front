@@ -1,53 +1,173 @@
-<div class="p-6 max-w-xl mx-auto">
-  <button (click)="goBack()" class="mb-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-    ⬅ Retour à la liste
-  </button>
-    <h2 class="text-3xl font-bold text-white mb-6">Modifier l'activité</h2>
-  
-    <form [formGroup]="activityForm" (ngSubmit)="onSubmit()" class="space-y-4">
+<div class="max-w-2xl mx-auto p-6">
+  <!-- Header Section -->
+  <div class="flex items-center justify-between mb-8">
+    <button 
+      (click)="goBack()" 
+      class="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition"
+    >
+      <span>←</span>
+      <span>Retour à la liste</span>
+    </button>
+    
+    <h2 class="text-3xl font-bold text-white">Modifier l'activité</h2>
+  </div>
+
+  <!-- Status Indicators -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-4">
+    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+
+  <div *ngIf="error" class="bg-red-900/50 text-red-200 p-4 rounded-lg mb-6">
+    <div class="flex items-center gap-2">
+      <span>⚠️</span>
+      <span>{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Name Field -->
       <div>
-        <label class="text-white block mb-1">Nom de l'activité</label>
-        <input formControlName="name" class="w-full p-2 rounded bg-gray-700 text-white" />
-      </div>
-  
-      <div>
-        <label class="text-white block mb-1">Date</label>
-        <input type="date" formControlName="startDate" class="w-full p-2 rounded bg-gray-700 text-white" />
-      </div>
-  
-      <div>
-        <label class="text-white block mb-1">Heure</label>
-        <input type="time" formControlName="startTime" class="w-full p-2 rounded bg-gray-700 text-white" />
-      </div>
-  
-      <div>
-        <label class="text-white block mb-1">Description</label>
-        <textarea formControlName="description" rows="3" class="w-full p-2 rounded bg-gray-700 text-white"></textarea>
-      </div>
-  
-      <div>
-        <label class="text-white block mb-1">Prix</label>
-        <input type="number" formControlName="price" class="w-full p-2 rounded bg-gray-700 text-white" />
+        <label class="block mb-2 text-sm font-medium text-white">
+          Nom de l'activité
+          <span class="text-red-500">*</span>
+        </label>
+        <input 
+          formControlName="name" 
+          class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+          placeholder="Entrez le nom"
+        />
+        <div *ngIf="name?.invalid && name?.touched" class="mt-1 text-red-500 text-sm">
+          Le nom est requis (min. 4 caractères)
+        </div>
       </div>
 
+      <!-- Type Field -->
       <div>
-        <label class="text-white block mb-1">Capacité</label>
-        <input type="number" formControlName="capacity" class="w-full p-2 rounded bg-gray-700 text-white" />
-      </div>      
-  
-      <div>
-        <label class="text-white block mb-1">Type</label>
-        <select formControlName="typeActivity" class="w-full p-2 rounded bg-gray-700 text-white">
+        <label class="block mb-2 text-sm font-medium text-white">
+          Type d'activité
+          <span class="text-red-500">*</span>
+        </label>
+        <select 
+          formControlName="typeActivity" 
+          class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+        >
+          <option value="" disabled>Sélectionnez un type</option>
           <option *ngFor="let type of typeOptions" [value]="type">{{ type }}</option>
         </select>
+        <div *ngIf="typeActivity?.invalid && typeActivity?.touched" class="mt-1 text-red-500 text-sm">
+          Veuillez sélectionner un type
+        </div>
       </div>
-  
-      <button type="submit" [disabled]="activityForm.invalid" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-        Mettre à jour
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Date Field -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-white">
+          Date
+          <span class="text-red-500">*</span>
+        </label>
+        <input 
+          type="date" 
+          formControlName="startDate" 
+          class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+        />
+        <div *ngIf="startDate?.invalid && startDate?.touched" class="mt-1 text-red-500 text-sm">
+          Veuillez sélectionner une date
+        </div>
+      </div>
+
+      <!-- Time Field -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-white">
+          Heure
+          <span class="text-red-500">*</span>
+        </label>
+        <input 
+          type="time" 
+          formControlName="startTime" 
+          class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+        />
+        <div *ngIf="startTime?.invalid && startTime?.touched" class="mt-1 text-red-500 text-sm">
+          Veuillez sélectionner une heure
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Field -->
+    <div>
+      <label class="block mb-2 text-sm font-medium text-white">
+        Description
+        <span class="text-red-500">*</span>
+      </label>
+      <textarea 
+        formControlName="description" 
+        rows="4" 
+        class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+        placeholder="Décrivez l'activité..."
+      ></textarea>
+      <div *ngIf="description?.invalid && description?.touched" class="mt-1 text-red-500 text-sm">
+        La description est requise (min. 30 caractères)
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Price Field -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-white">
+          Prix (TND)
+          <span class="text-red-500">*</span>
+        </label>
+        <div class="relative">
+          <input 
+            type="number" 
+            formControlName="price" 
+            class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white pl-10"
+            placeholder="0.00"
+          />
+          <span class="absolute left-3 top-3 text-gray-400">TND</span>
+        </div>
+        <div *ngIf="price?.invalid && price?.touched" class="mt-1 text-red-500 text-sm">
+          Veuillez entrer un prix valide
+        </div>
+      </div>
+
+      <!-- Capacity Field -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-white">
+          Capacité
+          <span class="text-red-500">*</span>
+        </label>
+        <input 
+          type="number" 
+          formControlName="capacity" 
+          class="w-full p-3 rounded-lg bg-gray-700 border-gray-600 text-white"
+          placeholder="Nombre de participants"
+        />
+        <div *ngIf="capacity?.invalid && capacity?.touched" class="mt-1 text-red-500 text-sm">
+          La capacité doit être d'au moins 1
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end gap-4 pt-4">
+      <button 
+        type="button" 
+        (click)="goBack()"
+        class="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+      >
+        Annuler
       </button>
-    </form>
-  
-    <div *ngIf="isLoading" class="text-white mt-4">Chargement...</div>
-    <div *ngIf="error" class="text-red-500 mt-4">{{ error }}</div>
-  </div>
-  
+      <button 
+        type="submit" 
+        [disabled]="activityForm.invalid"
+        class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition disabled:opacity-50"
+      >
+        Enregistrer les modifications
+      </button>
+    </div>
+  </form>
+</div>

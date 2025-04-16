@@ -4,6 +4,8 @@ import { Activity } from 'src/app/models/activity';
 import { TypeActivity } from 'src/app/models/typeActivity';
 import { ActivityService } from 'src/app/services/activity.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-activity',
@@ -16,6 +18,8 @@ export class AddActivityComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
+    private location: Location,
     private activityService: ActivityService
   ) {}
 
@@ -62,7 +66,7 @@ export class AddActivityComponent implements OnInit {
   onSubmit(): void {
     if (this.activityForm.valid) {
       const newActivity: Activity = this.activityForm.value;
-
+  
       this.activityService.addActivity(newActivity).subscribe({
         next: (res) => {
           Swal.fire({
@@ -70,6 +74,9 @@ export class AddActivityComponent implements OnInit {
             title: 'Succès',
             text: 'Activité ajoutée avec succès!',
             confirmButtonColor: '#10B981',
+          }).then(() => {
+            // After the user presses "OK", navigate to the /admin/activities/list page
+            this.router.navigate(['/admin/activities/list']);
           });
           this.activityForm.reset();
         },
@@ -85,4 +92,9 @@ export class AddActivityComponent implements OnInit {
       });
     }
   }
+  goBack(): void {
+    this.location.back();  // This will navigate to the previous page in history
+  }
+
+  
 }

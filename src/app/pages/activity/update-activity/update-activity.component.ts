@@ -76,6 +76,34 @@ export class UpdateActivityComponent implements OnInit {
       });
     }
   }
+  // Add these getters to your UpdateActivityComponent class
+get name() {
+  return this.activityForm.get('name');
+}
+
+get typeActivity() {
+  return this.activityForm.get('typeActivity');
+}
+
+get startDate() {
+  return this.activityForm.get('startDate');
+}
+
+get startTime() {
+  return this.activityForm.get('startTime');
+}
+
+get description() {
+  return this.activityForm.get('description');
+}
+
+get price() {
+  return this.activityForm.get('price');
+}
+
+get capacity() {
+  return this.activityForm.get('capacity');
+}
   goBack(): void {
     this.router.navigate(['/admin/activities/list']);
   }

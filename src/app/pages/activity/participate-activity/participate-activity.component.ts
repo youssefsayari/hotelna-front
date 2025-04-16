@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from 'src/app/services/activity.service';
 import { Activity } from 'src/app/models/activity';
-import { ParticipationRequest } from 'src/app/models/participationRequest';
 import { User } from 'src/app/models/user.model';
-import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-participate-activity',
@@ -25,104 +22,91 @@ export class ParticipateActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private route: ActivatedRoute,
-    private toastr: ToastrService,
     private router: Router,
     private userService: UserService
   ) {
     this.participationForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      telephone: new FormControl('', [Validators.required, Validators.pattern('[0-9]+')]),
+      firstName: new FormControl({ value: '', disabled: true }, Validators.required),
+      lastName: new FormControl({ value: '', disabled: true }, Validators.required),
+      email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),
+      telephone: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.pattern('[0-9]+')]),
     });
   }
 
   ngOnInit(): void {
     const activityId = +this.route.snapshot.paramMap.get('id')!;
-    const userId = 1; // Static for demo
+    const idUser = 1; // Ideally fetch from AuthService
 
-    // Fetch activity
     this.activityService.getActivityById(activityId).subscribe({
       next: (data) => {
         this.activity = data;
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching activity details:', err);
+        console.error('Error fetching activity:', err);
         this.error = 'Erreur lors du chargement de l\'activité.';
         this.isLoading = false;
       }
     });
 
-    // Fetch user
-    this.userService.getUserById(userId).subscribe({
+    this.userService.getUserById(idUser).subscribe({
       next: (data) => {
         this.user = data;
-        if (this.user) {
-          this.participationForm.patchValue({
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            email: this.user.email,
-            telephone: this.user.telephone,
-          });
-        }
+        this.participationForm.patchValue({
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          email: this.user.email,
+          telephone: this.user.telephone,
+        });
       },
       error: (err) => {
-        console.error('Error fetching user details:', err);
+        console.error('Error fetching user:', err);
         this.error = 'Erreur lors du chargement des informations de l\'utilisateur.';
       }
     });
   }
 
   onSubmit(): void {
-    if (this.participationForm.invalid || !this.user || !this.activity) {
+    if (!this.user || !this.activity) {
       Swal.fire({
         icon: 'warning',
-        title: 'Formulaire invalide ou données manquantes.',
-        showConfirmButton: true,
+        title: 'Utilisateur ou activité introuvable.',
         confirmButtonText: 'OK'
       });
       return;
     }
   
-    const formValues = this.participationForm.value;
+    const activityId = this.activity.id!;
+    const userId = this.user.idUser!;
   
-    const participationRequest: ParticipationRequest = {
-      activityId: this.activity.id!,
-      userId: 1, // Static user ID (you can make this dynamic later)
-      firstName: formValues.firstName,
-      lastName: formValues.lastName,
-      email: formValues.email,
-      telephone: Number(formValues.telephone),
-    };
-  
-    this.activityService.participateInActivity(participationRequest).subscribe({
+    this.activityService.participateInActivity(activityId, userId).subscribe({
       next: (response) => {
         Swal.fire({
           icon: 'success',
           title: 'Participation réussie!',
-          text: response,
-          showConfirmButton: true,
+          text: response, // Backend response message
           confirmButtonText: 'OK'
         }).then(() => {
-          this.router.navigate(['/visiteur/activities/list-visiteur']); // ✅ Updated path
+          this.router.navigate(['/visiteur/activities/list-visiteur']);
         });
       },
       error: (err) => {
-        console.error('Participation error:', err);
+        // If the backend sends a message (e.g., activity not found, user already participated)
+        const errorMessage = err.error || 'Une erreur inconnue est survenue.';
+        
+        // Show the error message from backend
         Swal.fire({
           icon: 'error',
-          title: 'Erreur lors de la participation.',
-          text: err.error,
-          showConfirmButton: true,
+          title: 'Erreur lors de la participation',
+          text: errorMessage, // Display backend message
           confirmButtonText: 'OK'
         });
       }
     });
   }
+  
+
   goBack(): void {
     this.router.navigate(['/visiteur/activities/list-visiteur']);
   }
-  
-  
 }

@@ -10,7 +10,7 @@ import { ActivityStats } from '../models/activity-stats';
 })
 export class ActivityService {
 
-  private baseUrl = 'http://localhost:8090/activity';
+  private baseUrl = 'http://localhost:8095/activity';
 
   constructor(private http: HttpClient) {}
 
@@ -34,21 +34,14 @@ export class ActivityService {
   deleteActivity(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/deleteActivity/${id}`);
   }
-  participateInActivity(request: ParticipationRequest): Observable<string> {
-    const body = {
-      userId: request.userId,
-      activityId: request.activityId,
-      firstName: request.firstName,
-      lastName: request.lastName,
-      email: request.email,
-      telephone: request.telephone
-    };
+  participateInActivity(activityId: number, userId: number): Observable<string> {
+    const url = `${this.baseUrl}/participate/${activityId}/${userId}`;
   
-    return this.http.post(`${this.baseUrl}/participate`, body, {
-      headers: { 'Content-Type': 'application/json' },
-      responseType: 'text'  // 👈 This tells Angular to treat the response as plain text
+    return this.http.post(url, null, {
+      responseType: 'text'
     });
   }
+  
 
   getActivityStatistics(): Observable<ActivityStats> {
     return this.http.get<ActivityStats>(`${this.baseUrl}/stats`);
