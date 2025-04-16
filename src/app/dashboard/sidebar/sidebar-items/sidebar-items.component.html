@@ -24,15 +24,6 @@
     <settings-icon></settings-icon>
   </sidebar-item>
 
-  <sidebar-item *ngIf="typeUser === 'ADMIN'" title="Activities" routerLink="admin/activities/list">
-    <settings-icon></settings-icon>
-  </sidebar-item>
-
-  <sidebar-item *ngIf="typeUser === 'VISITEUR'" title="Activities_visiteur" routerLink="visiteur/activities/list-visiteur">
-    <settings-icon></settings-icon>
-  </sidebar-item>
-
-
   <sidebar-item *ngIf="typeUser === 'Admin'" title="Chambres" routerLink="/admin/chambres"> 
     <i class="fa fa-bed"></i> 
   </sidebar-item>
@@ -40,8 +31,42 @@
   <sidebar-item *ngIf="typeUser === 'Visiteur'" title="Reserver" routerLink="/visiteur/chambres">
     <i class="fa fa-bed"></i> 
   </sidebar-item>
+  
+  <sidebar-item title="Bloc" routerLink="/blocs">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zm9-3V4m0 16v-4m0 0H8m4 0h4"
+      />
+    </svg>
+  </sidebar-item>
+  <sidebar-item  *ngIf="typeUser === 'Visiteur'" title="Bloc" routerLink="/client/blocs" >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9zm9-3V4m0 16v-4m0 0H8m4 0h4"
+      />
+    </svg>
+  </sidebar-item>
 
-  <sidebar-item title="Complaints" routerLink="/admin/complaints">
+
+  <sidebar-item title="Complaints" routerLink="/admin/complaints" >
     <app-complaint-icon></app-complaint-icon>
   </sidebar-item>
 

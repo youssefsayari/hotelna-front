@@ -20,7 +20,7 @@ export class SidebarItemsComponent implements OnInit {
   constructor(private userService: UserService, private router: Router){}
 
   ngOnInit(): void {
-    this.loadUserProfile();
+    //this.loadUserProfile();
   }
 
   loadUserProfile() {
