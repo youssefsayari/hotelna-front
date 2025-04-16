@@ -32,7 +32,7 @@
     <i class="fa fa-bed"></i> 
   </sidebar-item>
   
-  <sidebar-item title="Bloc" routerLink="/blocs"[roles]="['Admin']">
+  <sidebar-item title="Bloc" routerLink="/blocs">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -48,7 +48,7 @@
       />
     </svg>
   </sidebar-item>
-  <sidebar-item title="Bloc" routerLink="/client/blocs">
+  <sidebar-item  *ngIf="typeUser === 'Visiteur'" title="Bloc" routerLink="/client/blocs" >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -66,7 +66,7 @@
   </sidebar-item>
 
 
-  <sidebar-item title="Complaints" routerLink="/admin/complaints">
+  <sidebar-item title="Complaints" routerLink="/admin/complaints" >
     <app-complaint-icon></app-complaint-icon>
   </sidebar-item>
 

@@ -27,39 +27,39 @@ import { ClientBlocComponent } from './pages/client-bloc/client-bloc.component';
 
 const routes: Routes = [
 
-  { 
-    path: 'login', 
-    component: LoginComponent, 
-    data: { noLayout: true } 
-  },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService], data: { roles: ['Admin', 'Visiteur'] }},
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService], data: { roles: ['Admin', 'Visiteur'] }},
-  { path: 'admin/status', component: StatusComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path: 'admin/archives', component: ArchiveComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path: 'admin/credits', component: CreditComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path: 'admin/settings', component: SettingsComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path: 'userlist', component: UserListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path: 'spalist', component: SpaListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
-  { path :'blocs',component:BlocComponent,canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { 
+  //   path: 'login', 
+  //   component: LoginComponent, 
+  //   data: { noLayout: true } 
+  // },
+ { path: 'home', component: HomeComponent, canActivate: [AuthGuardService], data: { roles: ['Admin', 'Visiteur'] }},
+  // { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService], data: { roles: ['Admin', 'Visiteur'] }},
+  // { path: 'admin/status', component: StatusComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { path: 'admin/archives', component: ArchiveComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { path: 'admin/credits', component: CreditComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { path: 'admin/settings', component: SettingsComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { path: 'userlist', component: UserListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  // { path: 'spalist', component: SpaListComponent, canActivate: [AuthGuardService], data: { roles: ['Admin'] }},
+  { path :'blocs',component:BlocComponent},
   { path :'client/blocs',component:ClientBlocComponent},
 
-  { path: 'admin/restaurants', component: RestaurantComponent },
-  { path: 'admin/restaurants/add', component: AddRestaurantComponent },
-  { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
-  { path: 'admin/restaurants/update', component: UpdateRestaurantComponent },
-  { path: 'admin/chambres', component: ChambresListComponent },
-  {path: 'visiteur/chambres', component: ChambresVisiteurComponent},
-  { 
-    path: 'reservation-success', 
-    component: ReservationSuccessComponent 
-  },
+  // { path: 'admin/restaurants', component: RestaurantComponent },
+  // { path: 'admin/restaurants/add', component: AddRestaurantComponent },
+  // { path: 'admin/restaurants/:name', component: DetailRestaurantComponent },
+  // { path: 'admin/restaurants/update', component: UpdateRestaurantComponent },
+  // { path: 'admin/chambres', component: ChambresListComponent },
+  // {path: 'visiteur/chambres', component: ChambresVisiteurComponent},
+  // { 
+  //   path: 'reservation-success', 
+  //   component: ReservationSuccessComponent 
+  // },
 
-  { path: 'admin/restaurants/update/:id', component: UpdateRestaurantComponent },
-  { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },  
-  /*start sayari*/
-    { path: 'admin/complaints', component: ComplaintComponent },
-   /*end sayari*/
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  // { path: 'admin/restaurants/update/:id', component: UpdateRestaurantComponent },
+  // { path: 'admin/restaurants/rating/:id', component: RateRestaurantComponent },  
+  // /*start sayari*/
+  //   { path: 'admin/complaints', component: ComplaintComponent },
+  //  /*end sayari*/
+  // { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

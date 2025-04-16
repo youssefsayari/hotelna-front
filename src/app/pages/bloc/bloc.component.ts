@@ -15,7 +15,7 @@ export class BlocComponent implements OnInit {
   blocs: Bloc[] = [];
   filteredBlocs: Bloc[] = [];
   searchTerm: string = '';
-  sortCriterion: 'name' | 'taux' | 'chamberCount' = 'name'; 
+  sortCriterion: 'name' | 'taux' | 'etage' = 'name'; 
   sortOrder: 'asc' | 'desc' = 'asc';
   isDropdownOpen: boolean = false; // Dropdown visibility state
   private destroy$ = new Subject<void>(); 
@@ -186,18 +186,15 @@ export class BlocComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           // Call the service to delete the bloc
-          this.blocService.deleteBloc(idBloc).subscribe(
-            () => {
-              console.log('Bloc supprimé avec succès');
-              Swal.fire('Supprimé!', 'Le bloc a été supprimé.', 'success');
-              // Optionally refresh the list of blocs
-              this.loadBlocs();
+          this.blocService.deleteBloc(idBloc).subscribe({
+            next: (response) => {
+              console.log(response); // "Bloc supprimé avec succès"
+              this.loadBlocs(); // Refresh the list of blocs
             },
-            (error) => {
-              console.error('Erreur lors de la suppression du bloc:', error);
-              Swal.fire('Erreur!', 'Une erreur est survenue lors de la suppression du bloc.', 'error');
+            error: (err) => {
+              console.error('Error deleting bloc:', err);
             }
-          );
+          });
         }
       })
   }
@@ -209,7 +206,7 @@ export class BlocComponent implements OnInit {
     );
   }
 
-  toggleSortOrder(criterion: 'name' | 'taux' | 'chamberCount'): void {
+  toggleSortOrder(criterion: 'name' | 'taux' | 'etage'): void {
     if (this.sortCriterion === criterion) {
       // If the same criterion is clicked, toggle the order
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -234,10 +231,10 @@ export class BlocComponent implements OnInit {
         const tauxA = this.calculateOccupancyRate(a);
         const tauxB = this.calculateOccupancyRate(b);
         comparison = tauxA - tauxB;
-      } else if (this.sortCriterion === 'chamberCount') {
+      } else if (this.sortCriterion === 'etage') {
         // Sort by chamber count
-        const countA = a.chambres?.length || 0;
-        const countB = b.chambres?.length || 0;
+        const countA = a.nombreEtages || 0;
+        const countB = b.nombreEtages || 0;
         comparison = countA - countB;
       }
 
