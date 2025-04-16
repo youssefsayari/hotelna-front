@@ -3,8 +3,6 @@ import { Component, Output } from '@angular/core';
 @Component({
   selector: 'sidebar-header',
   templateUrl: './sidebar-header.component.html',
-  standalone: false
-
 })
 export class SidebarHeaderComponent {
   @Output() mobileOrientation: 'start' | 'end';

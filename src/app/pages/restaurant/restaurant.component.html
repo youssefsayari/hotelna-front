@@ -1,57 +1,31 @@
 <div class="flex flex-wrap">
-  <div class="w-full rounded-3xl bg-gray-800 p-6">
-    <div class="mb-8 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-white">Nos Restaurants</h1>
+  <div class="w-full rounded-3xl bg-gray-800 p-6 lg:w-12/12">
+    <div class="mb-8 flex items-center justify-between text-white">
+      <p class="text-2xl font-bold">Restaurant</p>
       <a
-        *ngIf="isAdmin"
         routerLink="/admin/restaurants/add"
-        class="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+        class="inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
       >
-        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-        </svg>
-        Ajouter un Restaurant
+        + Add Restaurant
       </a>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Affichage des restaurants -->
+    <div class="flex flex-wrap justify-start">
       <div
         *ngFor="let restaurant of restaurants"
-        (click)="viewRestaurantDetails(restaurant.name, restaurant.id)"
-        class="group cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg transition duration-300 hover:shadow-xl"
+        class="w-full md:w-4/12 p-2"
       >
-        <div class="relative h-48 overflow-hidden">
-          <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/resto.jpg');"></div>
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-transparent opacity-60"></div>
-          <div class="absolute bottom-4 left-4 right-4">
-            <div class="bg-black bg-opacity-60 backdrop-blur-sm p-3 rounded-lg w-fit">
-              <h2 class="text-lg font-semibold text-white">{{ restaurant.name }}</h2>
-              <p class="text-sm text-gray-200">{{ restaurant.openTime }} - {{ restaurant.closeTime }}</p>
-            </div>
+        <div class="rounded-3xl bg-gray-300 p-4">
+          <div class="mb-4 text-center">
+            <p class="text-base font-bold opacity-70">{{ restaurant.name }}</p>
+            <p class="mt-2 text-sm opacity-70">{{ restaurant.description }}</p>
           </div>
-          
-        </div>
-        <div class="p-4">
-          <div class="mb-2 flex items-center justify-between">
-            <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-              {{ restaurant.statut }}
-            </span>
-            <div *ngIf="isAdmin" class="flex space-x-2">
-              <button
-                (click)="updateRestaurant(restaurant); $event.stopPropagation()"
-                class="rounded-lg bg-blue-600 px-3 py-1 text-sm font-semibold text-white transition hover:bg-blue-700"
-              >
-                Modifier
-              </button>
-              <button
-                (click)="deleteRestaurant(restaurant.id); $event.stopPropagation()"
-                class="rounded-lg bg-red-600 px-3 py-1 text-sm font-semibold text-white transition hover:bg-red-700"
-              >
-                Supprimer
-              </button>
-            </div>
+          <div class="mb-4">
+            <p class="text-sm font-bold">Open Time: {{ restaurant.openTime }}</p>
+            <p class="text-sm font-bold">Close Time: {{ restaurant.closeTime }}</p>
+            <p class="text-sm font-bold">Status: {{ restaurant.status }}</p>
           </div>
-          <p class="text-sm text-gray-600 line-clamp-2">{{ restaurant.description }}</p>
         </div>
       </div>
     </div>
