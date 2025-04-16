@@ -1,3 +1,9 @@
-<dashboard-layout>
+<ng-container *ngIf="!hideLayout">
+  <dashboard-layout>
+    <router-outlet></router-outlet>
+  </dashboard-layout>
+</ng-container>
+
+<ng-container *ngIf="hideLayout">
   <router-outlet></router-outlet>
-</dashboard-layout>
+</ng-container>

@@ -5,9 +5,9 @@ import  {ComplaintStatus} from './complaint-status.enum'
 export interface Complaint {
     id?: number;
     user: User;
-    complaintDate?: Date | string; // Accepte Date ou string ISO pour les formulaires
+    complaintDate: Date | string; 
     description: string;
-    status?: ComplaintStatus;
+    status: ComplaintStatus;
     category: ComplaintCategories;
     resolutionDate?: Date | string | null;
     resolutionDetails?: string | null;
