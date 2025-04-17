@@ -67,6 +67,8 @@ import { ActivityCalendarComponent } from './pages/activity/activity-calendar/ac
 import { ActivityListVisiteurComponent } from './pages/activity/activity-list-visiteur/activity-list-visiteur.component';
 import { ParticipateActivityComponent } from './pages/activity/participate-activity/participate-activity.component';
 import { ActivityStatsComponent } from './pages/activity/activity-stats/activity-stats.component';
+import{ BlocComponent } from './pages/bloc/bloc.component';
+import { ClientBlocComponent } from './pages/client-bloc/client-bloc.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { ActivityStatsComponent } from './pages/activity/activity-stats/activity
     SidebarItemComponent,
     SidebarItemsComponent,
     SidebarHeaderComponent,
+    BlocComponent,
+    ClientBlocComponent,
 
     // pages
     HomeComponent,

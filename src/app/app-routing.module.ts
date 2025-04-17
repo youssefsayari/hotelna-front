@@ -29,6 +29,7 @@ import { ActivityCalendarComponent } from './pages/activity/activity-calendar/ac
 import { ActivityListVisiteurComponent } from './pages/activity/activity-list-visiteur/activity-list-visiteur.component';
 import { ParticipateActivityComponent } from './pages/activity/participate-activity/participate-activity.component';
 import { ActivityStatsComponent } from './pages/activity/activity-stats/activity-stats.component';
+import { BlocComponent } from './pages/bloc/bloc.component';
 
 
 const routes: Routes = [
@@ -69,7 +70,12 @@ const routes: Routes = [
    { path: 'admin/activities/calendar', component: ActivityCalendarComponent },
    { path: 'visiteur/activities/list-visiteur', component: ActivityListVisiteurComponent },
    { path: 'visiteur/activities/participate/:id', component: ParticipateActivityComponent },
+   { path: 'blocs', component: BlocComponent },
+
    { path: 'admin/activities/stats', component: ActivityStatsComponent },
+
+
+   
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
