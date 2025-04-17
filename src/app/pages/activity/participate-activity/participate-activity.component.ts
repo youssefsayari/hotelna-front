@@ -35,7 +35,9 @@ export class ParticipateActivityComponent implements OnInit {
 
   ngOnInit(): void {
     const activityId = +this.route.snapshot.paramMap.get('id')!;
-    const idUser = 1; // Ideally fetch from AuthService
+    this.loadUserProfile(); // Load user profile from local storage
+     const idUser: number = this.user?.idUser!; // Ideally fetch from AuthService
+
 
     this.activityService.getActivityById(activityId).subscribe({
       next: (data) => {
@@ -65,6 +67,19 @@ export class ParticipateActivityComponent implements OnInit {
       }
     });
   }
+
+   loadUserProfile() {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        this.user = JSON.parse(userData);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No user data found in local storage.'
+        });
+      }
+    }
 
   onSubmit(): void {
     if (!this.user || !this.activity) {
