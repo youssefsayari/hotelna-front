@@ -8,7 +8,7 @@ import { TableReservationDTO } from '../models/table-reservation-dto';
   providedIn: 'root'
 })
 export class TableService {
-  private baseUrl = 'http://localhost:8088/restaurants/tables';
+  private baseUrl = 'http://localhost:8095/restaurants/tables';
   constructor(private http: HttpClient) { }
 
   addTable(table: TableRes): Observable<TableRes> {

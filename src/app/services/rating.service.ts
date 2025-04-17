@@ -10,7 +10,7 @@ import { Rating } from '../models/rating';
   providedIn: 'root'
 })
 export class RatingService {
-  private apiUrl = 'http://localhost:8088/restaurants/rating';
+  private apiUrl = 'http://localhost:8095/restaurants/rating';
 
   constructor(private http: HttpClient) { }
 

@@ -85,7 +85,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             '<br>' +
             '<label style="font-weight: 600; margin-top: 10px;">👥 Type:</label>' +
             '<select id="swal-input6" class="swal2-input">' +
-              '<option value="Admin">👤 Admin</option>' +
               '<option value="Visiteur">👥 Visiteur</option>' +
             '</select>' +
           '</div>',

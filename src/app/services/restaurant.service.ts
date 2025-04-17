@@ -7,7 +7,7 @@ import {Restaurant} from "../models/restaurant";
   providedIn: 'root'
 })
 export class RestaurantService {
-  private baseUrl = 'http://localhost:8088/restaurants';
+  private baseUrl = 'http://localhost:8095/restaurants';
 
   constructor(private http: HttpClient) {}
 
