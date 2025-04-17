@@ -1,43 +1,45 @@
-# Salvia-kit Dashboard v4 Angular
+# Système de Gestion Hôtelière - Frontend Angular
 
-![Salvia-kit Dashboard v4](https://www.salvia-kit.com/images/dashboards/dashv4.jpg)
+![Dashboard Hôtelier](https://example.com/path-to-your-hotel-dashboard-screenshot.jpg)
 
+## 📋 Description
+Application frontend développée avec Angular pour la gestion complète d'un établissement hôtelier. Cette interface permet aux administrateurs et clients d'interagir avec les différents microservices backend.
 
-## 📋 Documentation
-You can see the documentation on [http://localhost:3000/admin/documentation](http://localhost:3000/admin/documentation)
+## 🌟 Fonctionnalités Principales
 
-## Browser Support
+### 🏨 Modules Administratifs
+- **Gestion des Utilisateurs** : CRUD complet du personnel et clients
+- **Gestion des Blocs/Chambres** : Configuration des espaces de l'hôtel
+- **Restaurant** : Gestion des tables, menus et réservations
+- **Activités** : Programmation et suivi des activités
+- **Spa** : Gestion des services et rendez-vous
 
-| Chrome | Firefox | Edge | Safari | Opera |
-|:---:|:---:|:---:|:---:|:---:|
-| <img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/chrome-logo.png?raw=true" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/firefox-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/edge-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/safari-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/opera-logo.png" width="64" height="64"> |
+### 🛎 Services Clients
+- **Réservation de chambres** avec paiement Stripe intégré
+- **Système de réclamations** intelligent avec suggestions IA
+- **Calendrier des activités** et inscriptions
+- **Réservation de tables** au restaurant
+- **Tableau de bord personnel**
 
-## Contribution
-If you would like to contribute on the project, fixing bugs, please follow our [Contribution guide](https://github.com/salvia-kit/dashboard-v4-nextjs/blob/main/contributing.md)
+## 🛠️ Technologies
 
+- **Angular 16+**
+- **Angular Material** pour les composants UI
+- **NgRx** (State Management)
+- **Chart.js** pour les visualisations
+- **FullCalendar** pour la gestion des événements
+- **Stripe.js** pour les paiements
+- **Socket.io** (notifications en temps réel)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
+## 🖥 Configuration du Développement
 
-## Development server
+### Prérequis
+- Node.js v16+
+- npm v8+ ou yarn
+- Angular CLI v16+
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### 1. Installation
+```bash
+git clone https://github.com/votre-repo/hotel-management-frontend.git
+cd hotel-management-frontend
+npm install
