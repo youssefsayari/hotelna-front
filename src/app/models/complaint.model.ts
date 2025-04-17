@@ -4,7 +4,7 @@ import  {ComplaintCategories} from './complaint-categories.enum'
 import  {ComplaintStatus} from './complaint-status.enum'
 export interface Complaint {
     id?: number;
-    user: User;
+    userId: number;
     complaintDate: Date | string; 
     description: string;
     status: ComplaintStatus;

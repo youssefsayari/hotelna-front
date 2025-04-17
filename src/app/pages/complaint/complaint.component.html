@@ -15,7 +15,7 @@
         </div>
         <div>
           <h1 class="text-3xl font-bold text-white">
-            Bonjour <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-300 ">{{ userFirstName }}</span> !
+            Bonjour <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-300 ">{{ user.firstName }}</span> !
           </h1>
           <p class="text-sm text-white/80 mt-1">Votre tableau de bord de réclamations</p>
         </div>
@@ -212,14 +212,14 @@
             <div class="mt-4 flex items-center justify-between pt-3 border-t border-gray-300">
               <div class="flex items-center">
                 <img class="h-8 w-8 rounded-full object-cover"
-                     [src]="'https://ui-avatars.com/api/?name=' + (complaint.user.firstName || '') + '+' + (complaint.user.lastName || '') + '&background=random'"
-                     [alt]="complaint.user.firstName">
+                     [src]="'https://ui-avatars.com/api/?name=' + (getUserInfo(complaint.userId)?.firstName || '') + '+' + (getUserInfo(complaint.userId)?.lastName || '') + '&background=random'"
+                     [alt]="getUserInfo(complaint.userId)?.firstName">
                 <span class="ml-2 text-sm font-medium">
-                  {{ complaint.user.firstName }} {{ complaint.user.lastName }}
+                  {{ getUserInfo(complaint.userId)?.firstName }} {{ getUserInfo(complaint.userId)?.lastName }}
                 </span>
               </div>
               <span class="text-xs px-2 py-1 rounded bg-white bg-opacity-70">
-                Role : {{ complaint.user.typeUser || 'User' }}
+                Role : {{ getUserInfo(complaint.userId)?.typeUser || 'User' }}
               </span>
             </div>
           </div>
@@ -248,13 +248,13 @@
       <td class="px-6 py-4 whitespace-nowrap">
         <div class="flex items-center">
           <img class="h-8 w-8 rounded-full object-cover mr-2"
-               [src]="'https://ui-avatars.com/api/?name=' + complaint.user.firstName + '+' + complaint.user.lastName + '&background=random'"
-               [alt]="complaint.user.firstName">
+               [src]="'https://ui-avatars.com/api/?name=' + getUserInfo(complaint.userId)?.firstName + '+' + getUserInfo(complaint.userId)?.lastName + '&background=random'"
+               [alt]="getUserInfo(complaint.userId)?.firstName">
           <div>
             <p class="text-sm font-medium text-white">
-              {{ complaint.user.firstName }} {{ complaint.user.lastName }}
+              {{ getUserInfo(complaint.userId)?.firstName }} {{ getUserInfo(complaint.userId)?.lastName }}
             </p>
-            <p class="text-xs text-gray-400">{{ complaint.user.typeUser }}</p>
+            <p class="text-xs text-gray-400">{{ getUserInfo(complaint.userId)?.typeUser }}</p>
           </div>
         </div>
       </td>

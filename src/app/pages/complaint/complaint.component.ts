@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ComplaintService } from '../../services/complaint.service';
 import { Complaint } from '../../models/complaint.model';
@@ -9,6 +10,8 @@ import { ComplaintCategories } from '../../models/complaint-categories.enum';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { trigger, transition, style, animate, state } from '@angular/animations';
+import { UserService } from '../../services/user.service';
+import { catchError, tap, throwError } from 'rxjs';
 
 
 
@@ -70,7 +73,9 @@ export class ComplaintComponent implements OnInit, OnDestroy {
     user!: User; // Non-null assertion operator to indicate it will be assigned later
     userId!: number;
     typeUser!: string; 
-    userFirstName!: string ;     
+    userFirstName!: string ;  
+    userMap: { [userId: number]: User } = {};
+   
   /*------------------------------user Connecte---------------------*/
 
   currentTime: string = '';
@@ -120,7 +125,7 @@ isNewSolution: boolean = false;
 
 constructor( 
   private complaintService: ComplaintService,
-  private fb: FormBuilder,private router: Router)
+  private fb: FormBuilder,private router: Router, private userService: UserService) 
   { this.initForm();}
 
    initForm(): void {
@@ -276,6 +281,9 @@ submitUpdate(): void {
       this.userId = this.user.idUser;
       this.typeUser = this.user.typeUser; // Assurez-vous que le type d'utilisateur est bien défini dans le modèle User
       this.userFirstName = this.user.firstName; // Assurez-vous que le prénom est bien défini dans le modèle User
+      console.log('User ID:', this.userId);
+      console.log('User Type:', this.user.firstName);
+   
     } else {
       Swal.fire({
         icon: 'error',
@@ -286,13 +294,16 @@ submitUpdate(): void {
     }
   }
 
-
+  getUserInfo(userId: number): User | undefined {
+    return this.userMap[userId];
+  }
+  
 
   loadComplaints(): void {
     this.loading = true;
     this.error = null;
   
-    const observable = this.typeUser === 'Admin' 
+    const observable = this.typeUser === 'Admin'
       ? this.complaintService.getAllComplaints()
       : this.complaintService.getComplaintsByUser(this.userId);
   
@@ -301,15 +312,28 @@ submitUpdate(): void {
         this.complaints = complaints;
         this.totalComplaintsCount = complaints.length;
         this.updateStatusStats();
+  
+        // Charger les utilisateurs liés à chaque plainte
+        const uniqueUserIds = Array.from(new Set(complaints.map(c => c.userId)));
+  
+        uniqueUserIds.forEach(userId => {
+          if (!this.userMap[userId]) {
+            this.userService.getUserById(userId).subscribe({
+              next: (user) => this.userMap[userId] = user,
+              error: (err) => console.warn(`Erreur chargement user ${userId}`, err)
+            });
+          }
+        });
+  
         this.loading = false;
       },
       error: (err) => {
         this.error = 'Failed to load complaints';
         this.loading = false;
-        console.error(err);
       }
     });
   }
+  
   getStatusClass(status: ComplaintStatus | undefined): string {
     if (!status) return 'bg-gray-100 text-gray-800';
     
@@ -583,7 +607,7 @@ private generateNewSolution(complaint: Complaint) {
 
 // Méthode pour accepter la solution IA
 acceptSolution() {
-  if (!this.selectedComplaint?.id || !this.aiResponse || !this.selectedComplaint.user) {
+  if (!this.selectedComplaint?.id || !this.aiResponse || !this.selectedComplaint.userId) {
     this.resetAI();
     return;
   }
@@ -607,7 +631,7 @@ acceptSolution() {
       const updatedComplaint: Complaint = {
         ...this.selectedComplaint!,
         status: ComplaintStatus.EN_PROGRESSION,
-        user: this.selectedComplaint!.user, // Garanti non-undefined grâce à la vérification initiale
+        userId: this.selectedComplaint!.userId, // Garanti non-undefined grâce à la vérification initiale
         complaintDate: this.selectedComplaint!.complaintDate || new Date(),
         description: this.selectedComplaint!.description || '',
         category: this.selectedComplaint!.category || ComplaintCategories.AUTRE,
