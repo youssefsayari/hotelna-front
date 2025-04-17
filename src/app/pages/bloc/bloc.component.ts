@@ -25,27 +25,27 @@ export class BlocComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBlocs();
-    this.startAutoRefresh();
   }
   ngOnDestroy(): void {
     this.destroy$.next(); 
     this.destroy$.complete(); 
   }
 
+  
   loadBlocs(): void {
-    this.blocService.getAllBlocs().subscribe((data) => {
-      this.blocs = data;
-      this.filteredBlocs = [...this.blocs]; // Initialize filteredBlocs
-      this.sortBlocs(); // Apply default sorting
-    });
-  }
-  startAutoRefresh(): void {
-    interval(2000) 
-      .pipe(takeUntil(this.destroy$)) 
-      .subscribe(() => {
-        this.loadBlocs(); 
+      this.blocService.getAllBlocs().subscribe({
+        next: (data) => {
+          this.blocs = data;
+          this.filteredBlocs = [...this.blocs]; // Initialize filteredBlocs
+          this.sortBlocs();
+        },
+        error: (err) => {
+          console.error('Error fetching blocs:', err);
+          Swal.fire('Error!', 'Failed to load blocs', 'error');
+        }
       });
-  }
+    }
+  
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen; // Toggle dropdown visibility
